@@ -28,10 +28,14 @@ void GameInit()
 {
 	SPR_init();
     SYS_enableInts();
+    SYS_showFrameLoad(true);
 
+    
     VDP_setScreenHeight224();
     VDP_setScreenWidth320();
-
+    
     VRAMTileIndex += MapInit(VRAMTileIndex);
     VRAMTileIndex += PlayerInit(VRAMTileIndex);
+    
+    SYS_doVBlankProcess();
 }
