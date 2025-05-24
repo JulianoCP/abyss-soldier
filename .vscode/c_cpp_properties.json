@@ -3,10 +3,13 @@
         {
             "name": "sgdk",
             "includePath": [
+                "${workspaceFolder}/**",
                 "${workspaceFolder}/../../inc",
                 "${workspaceFolder}/../../res",
                 "${workspaceFolder}/inc",
-                "${workspaceFolder}/res"
+                "${workspaceFolder}/res",
+                "${GDK}/inc",
+                "${GDK}/res"
             ]
         }
     ],

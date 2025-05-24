@@ -13,6 +13,12 @@
         "**/out.lst": true,
     },
     "files.associations": {
-        "genesis.h": "c"
+        "genesis.h": "c",
+        "main.h": "c",
+        "sprite_eng.h": "c",
+        "library.h": "c",
+        "resource.h": "c",
+        "node.h": "c",
+        "player.h": "c"
     },
 }
