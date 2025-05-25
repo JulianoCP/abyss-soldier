@@ -8,13 +8,14 @@
 #ifndef _PLAYER_H_
 #define _PLAYER_H_
 
-#define INIT_PLAYER_SPEED   2
+#define INIT_PLAYER_SPEED   5
 #define INIT_PLAYER_HEALTH 	200
 
 extern Character Player;
 extern u8 OldButtons[NUMBER_OF_JOYPADS];
 extern u8 CurrentButtons[NUMBER_OF_JOYPADS];
 
+void FindNearbyTarget();
 void PlayerUpdate();
 void UpdatePlayerInputs();
 

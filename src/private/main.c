@@ -30,7 +30,6 @@ void GameInit()
     SYS_enableInts();
     SYS_showFrameLoad(true);
 
-    
     VDP_setScreenHeight224();
     VDP_setScreenWidth320();
     

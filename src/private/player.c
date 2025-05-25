@@ -23,15 +23,20 @@ void UpdatePlayerInputs()
 		CurrentButtons[joyIndex] = JOY_readJoypad(joyIndex);
 	}
     
-    if (IsKeyDown(JOY_1, BUTTON_LEFT))  { Player._Input._X = FIX16(-1); }
-    if (IsKeyDown(JOY_1, BUTTON_RIGHT)) { Player._Input._X = FIX16(1); }
-    if (IsKeyDown(JOY_1, BUTTON_UP))    { Player._Input._Y = FIX16(-1); }
-    if (IsKeyDown(JOY_1, BUTTON_DOWN))  { Player._Input._Y = FIX16(1); }
+    if (IsKeyDown(JOY_1, BUTTON_LEFT))  { Player._Input._X = -1; }
+    if (IsKeyDown(JOY_1, BUTTON_RIGHT)) { Player._Input._X =  1; }
+    if (IsKeyDown(JOY_1, BUTTON_UP))    { Player._Input._Y = -1; }
+    if (IsKeyDown(JOY_1, BUTTON_DOWN))  { Player._Input._Y =  1; }
     
+    FindNearbyTarget(&Player);
     UpdateCharacterPosition(&Player);
-    UpdateCharacterRotation(&Player);
     
     ClearCharacterInputs(&Player);
+}
+
+void FindNearbyTarget()
+{
+
 }
 
 bool IsBitset(u8 Value, u8 Bit) 

@@ -51,10 +51,8 @@ Attribute MakeAttribute(f16 Speed, f16 Health);
 
 u16 GetCharacterSpeed(Character* CharacterReference, const bool IsDiagonal);
 
+void UpdateCharacterPosition(Character* CharacterReference);
 void ClearCharacterInputs(Character* CharacterReference);
 void ProcessCharacterInputs(Character* CharacterReference);
-
-void UpdateCharacterPosition(Character* CharacterReference);
-void UpdateCharacterRotation(Character* CharacterReference);
 
 #endif
