@@ -15,7 +15,7 @@ int main(bool HardReset)
 
     while (TRUE)
     {
-        PlayerUpdate();
+        PlayerUpdate(Enemies, EnemyCount);
         
         SPR_update();
         SYS_doVBlankProcess();
@@ -35,6 +35,7 @@ void GameInit()
     
     VRAMTileIndex += MapInit(VRAMTileIndex);
     VRAMTileIndex += PlayerInit(VRAMTileIndex);
+    VRAMTileIndex += WaveManagerInit(VRAMTileIndex);
     
     SYS_doVBlankProcess();
 }

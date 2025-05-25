@@ -1,5 +1,6 @@
 #include <genesis.h>
 #include <sprite_eng.h>
+#include <maths.h>
 
 #include "public/node.h"
 #include "public/library.h"
@@ -11,15 +12,20 @@
 #define INIT_PLAYER_SPEED   5
 #define INIT_PLAYER_HEALTH 	200
 
+#define NUM_DIRECTIONS 8
+
 extern Character Player;
 extern u8 OldButtons[NUMBER_OF_JOYPADS];
 extern u8 CurrentButtons[NUMBER_OF_JOYPADS];
 
-void FindNearbyTarget();
-void PlayerUpdate();
-void UpdatePlayerInputs();
-
 u16 PlayerInit(u16 ind);
+fix16 GetDistanceSquared(Position TargetPosition);
+Character* FindNearbyTarget(Character* Enemies[], u16 EnemyCount);
+
+void UpdatePlayerInputs();
+void PlayerUpdate(Character* Enemies[], u16 EnemyCount);
+void UpdatePlayerTarget(Character* Enemies[], u16 EnemyCount);
+
 bool IsBitset(u8 Value, u8 Bit);
 bool IsKeyReleased(u8 JoyId, u8 Key);
 bool IsKeyDown(u8 JoyId, u8 Key);

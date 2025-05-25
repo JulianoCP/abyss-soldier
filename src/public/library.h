@@ -1,5 +1,6 @@
 #include <genesis.h>
 #include <sprite_eng.h>
+#include <maths.h>
 
 #include "resource.h"
 
@@ -11,6 +12,8 @@
 #define PAL_PLAYER 		PAL0
 #define PAL_ENEMY 		PAL1
 #define PAL_MAP 		PAL2
+
+#define M_PI 3.14159265f
 
 #define SCREEN_W 320
 #define SCREEN_H 224
@@ -26,5 +29,10 @@
 
 #define WALL_SIZE 32
 #define NUMBER_OF_JOYPADS 2
+
+#define ABS(X) ((X) < 0 ? -(X) : (X))
+#define DEG_TO_INDEX(Angle) (((Angle + 22) % 360) / 45)
+
+int GetApproxAngle(int X, int Y);
 
 #endif

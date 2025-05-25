@@ -4,6 +4,7 @@
 #define _RES_RESOURCE_H_
 
 extern const SpriteDefinition SoldierImage;
+extern const SpriteDefinition EnemyImage;
 extern const Image MapBackground;
 
 #endif // _RES_RESOURCE_H_

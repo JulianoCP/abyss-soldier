@@ -6,6 +6,8 @@
 #include "public/map.h"
 #include "public/library.h"
 #include "public/player.h"
+#include "public/enemy.h"
+#include "public/wave.h"
 
 #ifndef _MAIN_H_
 #define _MAIN_H_

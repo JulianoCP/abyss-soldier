@@ -19,6 +19,10 @@
         "library.h": "c",
         "resource.h": "c",
         "node.h": "c",
-        "player.h": "c"
+        "player.h": "c",
+        "map.h": "c",
+        "enemy.h": "c",
+        "wave_manager.h": "c",
+        "character.h": "c"
     },
 }
