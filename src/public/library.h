@@ -31,8 +31,5 @@
 #define NUMBER_OF_JOYPADS 2
 
 #define ABS(X) ((X) < 0 ? -(X) : (X))
-#define DEG_TO_INDEX(Angle) (((Angle + 22) % 360) / 45)
-
-int GetApproxAngle(int X, int Y);
 
 #endif

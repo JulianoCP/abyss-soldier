@@ -28,19 +28,15 @@ void UpdatePlayerTarget(Character* Enemies[], u16 EnemyCount)
        return;
     }
 
-    int distanceToX = F16_toInt(targetReference->_Node._Position._X - Player._Node._Position._X);
-    int distanceToY = F16_toInt(targetReference->_Node._Position._Y - Player._Node._Position._Y);
+    s16 distanceToX = F16_toInt(targetReference->_Node._Position._X - Player._Node._Position._X);
+    s16 distanceToY = F16_toInt(targetReference->_Node._Position._Y - Player._Node._Position._Y);
 
-    int approxDeg = GetApproxAngle(distanceToX, distanceToY);
-    int directionIndex = DEG_TO_INDEX((approxDeg + 360) % 360);
-
-    Player._Node._Sprite->animation = directionIndex;
-    SPR_setAnim(Player._Node._Sprite, Player._Node._Sprite->animation);
+    SPR_setAnim(Player._Node._Sprite, GetDirectionIndex(distanceToX, distanceToY));
 }
 
 void UpdatePlayerInputs() 
 {
-    for (int joyIndex = NUMBER_OF_JOYPADS-1; joyIndex >= 0; --joyIndex) 
+    for (s16 joyIndex = (NUMBER_OF_JOYPADS - 1); joyIndex >= 0; --joyIndex) 
     {
 		OldButtons[joyIndex] = CurrentButtons[joyIndex];
 		CurrentButtons[joyIndex] = JOY_readJoypad(joyIndex);
@@ -50,14 +46,6 @@ void UpdatePlayerInputs()
     if (IsKeyDown(JOY_1, BUTTON_RIGHT)) { Player._Input._X =  1; }
     if (IsKeyDown(JOY_1, BUTTON_UP))    { Player._Input._Y = -1; }
     if (IsKeyDown(JOY_1, BUTTON_DOWN))  { Player._Input._Y =  1; }
-}
-
-fix16 GetDistanceSquared(Position TargetPosition)
-{
-    fix16 distanceToX = TargetPosition._X - Player._Node._Position._X;
-    fix16 distanceToY = TargetPosition._Y - Player._Node._Position._Y;
-
-    return FIX16(F16_mul(distanceToX, distanceToX) + F16_mul(distanceToY, distanceToY));
 }
 
 Character* FindNearbyTarget(Character* Enemies[], u16 EnemyCount)
@@ -89,6 +77,33 @@ Character* FindNearbyTarget(Character* Enemies[], u16 EnemyCount)
     }
     
     return closestEnemy;
+}
+
+fix16 GetDistanceSquared(Position TargetPosition)
+{
+    fix16 distanceToX = TargetPosition._X - Player._Node._Position._X;
+    fix16 distanceToY = TargetPosition._Y - Player._Node._Position._Y;
+
+    return FIX16(F16_mul(distanceToX, distanceToX) + F16_mul(distanceToY, distanceToY));
+}
+
+s16 GetDirectionIndex(s16 X, s16 Y)
+{
+    if (X != 0 || Y != 0)
+    {
+        if (ABS(X) > ABS(Y))
+        {
+            if ((ABS(Y) * DIRECTION_TOLERANCE) < ABS(X)) { return X > 0 ? 0 : 4; }
+            else { return X > 0 ? (Y < 0 ? 1 : 7) : (Y < 0 ? 3 : 5); };
+        }
+        else
+        {
+            if ((ABS(X) * DIRECTION_TOLERANCE) < ABS(Y)) { return Y < 0 ? 2 : 6; }
+            else { return X > 0 ? (Y < 0 ? 1 : 7) : (Y < 0 ? 3 : 5); };
+        }
+    }
+
+    return 0;
 }
 
 bool IsBitset(u8 Value, u8 Bit) 

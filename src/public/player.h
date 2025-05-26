@@ -13,12 +13,14 @@
 #define INIT_PLAYER_HEALTH 	200
 
 #define NUM_DIRECTIONS 8
+#define DIRECTION_TOLERANCE 1.5
 
 extern Character Player;
 extern u8 OldButtons[NUMBER_OF_JOYPADS];
 extern u8 CurrentButtons[NUMBER_OF_JOYPADS];
 
 u16 PlayerInit(u16 ind);
+s16 GetDirectionIndex(s16 X, s16 Y);
 fix16 GetDistanceSquared(Position TargetPosition);
 Character* FindNearbyTarget(Character* Enemies[], u16 EnemyCount);
 
