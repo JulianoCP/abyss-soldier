@@ -23,6 +23,8 @@
         "map.h": "c",
         "enemy.h": "c",
         "wave_manager.h": "c",
-        "character.h": "c"
+        "character.h": "c",
+        "stdlib.h": "c",
+        "maths.h": "c"
     },
 }

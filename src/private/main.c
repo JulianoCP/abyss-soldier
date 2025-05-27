@@ -20,6 +20,7 @@ int main(bool HardReset)
         
         SPR_update();
         SYS_doVBlankProcess();
+        VDP_waitVSync();
     }
 
     return 0;
@@ -37,6 +38,4 @@ void GameInit()
     VRAMTileIndex += MapInit(VRAMTileIndex);
     VRAMTileIndex += PlayerInit(VRAMTileIndex);
     VRAMTileIndex += WaveManagerInit(VRAMTileIndex);
-    
-    SYS_doVBlankProcess();
 }

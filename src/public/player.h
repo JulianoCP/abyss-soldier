@@ -1,6 +1,7 @@
 #include <genesis.h>
 #include <sprite_eng.h>
 #include <maths.h>
+#include <tools.h>
 
 #include "public/node.h"
 #include "public/library.h"
@@ -9,8 +10,8 @@
 #ifndef _PLAYER_H_
 #define _PLAYER_H_
 
-#define INIT_PLAYER_SPEED   6
-#define INIT_PLAYER_HEALTH 	200
+#define INIT_PLAYER_SPEED 10
+#define INIT_PLAYER_HEALTH 200
 
 #define NUM_DIRECTIONS 8
 #define DIRECTION_TOLERANCE 4

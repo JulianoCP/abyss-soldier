@@ -19,4 +19,4 @@ out/src/private/map.o: src/private/map.c src/public/map.h \
  C:/sgdk/inc/types.h C:/sgdk/inc/ext/flash-save/saveman.h \
  C:/sgdk/inc/ext/console.h C:/sgdk/inc/config.h C:/sgdk/inc/string.h \
  C:/sgdk/inc/maths.h C:/sgdk/inc/dma.h C:/sgdk/inc/sprite_eng.h \
- res/resource.h src/public/library.h
+ res/resource.h src/public/library.h C:/sgdk/inc/tools.h

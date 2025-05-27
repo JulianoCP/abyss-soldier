@@ -82,8 +82,8 @@ Character* FindNearbyTarget(Character* ListOfEnemies[], u16 EnemyCount)
 
 fix16 GetDistanceSquared(Position TargetPosition)
 {
-    const fix16 distanceToX = TargetPosition._X - Player._Node._Position._X;
-    const fix16 distanceToY = TargetPosition._Y - Player._Node._Position._Y;
+    const fix16 distanceToX = Player._Node._Position._X - TargetPosition._X;
+    const fix16 distanceToY = Player._Node._Position._Y - TargetPosition._Y;
 
     return FIX16(F16_mul(distanceToX, distanceToX) + F16_mul(distanceToY, distanceToY));
 }

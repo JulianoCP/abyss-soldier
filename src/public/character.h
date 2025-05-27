@@ -1,5 +1,7 @@
 #include <genesis.h>
 #include <sprite_eng.h>
+#include <maths.h>
+#include <tools.h>
 
 #include "public/node.h"
 

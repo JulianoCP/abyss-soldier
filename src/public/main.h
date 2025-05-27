@@ -1,6 +1,7 @@
 #include <genesis.h>
 #include <sprite_eng.h>
 #include <maths.h>
+#include <tools.h>
 
 #include "resource.h"
 #include "public/map.h"

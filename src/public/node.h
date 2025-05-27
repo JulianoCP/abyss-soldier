@@ -1,5 +1,7 @@
 #include <genesis.h>
 #include <sprite_eng.h>
+#include <maths.h>
+#include <tools.h>
 
 #include "resource.h"
 #include "public/library.h"
@@ -29,7 +31,8 @@ typedef struct
 
 } Node;
 
-Position MakePosition(fix16 X, fix16 Y);
 u16 NodeInit(Node* NodeReference, const SpriteDefinition* SpriteValue, const Position PositionValue, const u8 PaletteValue, u16 VRAMIndex);
+Position GetSafeRandomScreenPosition();
+Position MakePosition(fix16 X, fix16 Y);
 
 #endif

@@ -18,6 +18,22 @@ u16 NodeInit(Node* NodeReference, const SpriteDefinition* SpriteValue, const Pos
 
 Position MakePosition(fix16 X, fix16 Y)
 {
-    Position newPosition = { ._X = X, ._Y = Y };
-    return newPosition;
+    Position positionResult = { ._X = X, ._Y = Y };
+    return positionResult;
+}
+
+Position GetSafeRandomScreenPosition()
+{
+    Position positionResult;
+
+    u16 minX = WALL_BLOCK_SIZE;
+    u16 maxX = SCREEN_W - (WALL_BLOCK_SIZE + CHARACTER_DIMENSION);
+
+    u16 minY = WALL_BLOCK_SIZE;
+    u16 maxY = SCREEN_H - (WALL_BLOCK_SIZE + CHARACTER_DIMENSION);
+
+    positionResult._X = FIX16(minX + (random() % (maxX - minX)));
+    positionResult._Y = FIX16(minY + (random() % (maxY - minY)));
+
+    return positionResult;
 }

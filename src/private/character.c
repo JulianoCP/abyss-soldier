@@ -56,11 +56,11 @@ void UpdateCharacterPosition(Character* CharacterReference)
     fix16 newX = CharacterReference->_Node._Position._X + CharacterReference->_Velocity._X;
     fix16 newY = CharacterReference->_Node._Position._Y + CharacterReference->_Velocity._Y;
 
-    if (newX < FIX16(PLAYER_DIMENSION)) { newX = FIX16(PLAYER_DIMENSION); };
-    if (newX > FIX16(SCREEN_W - F16_toInt(PLAYER_DIMENSION))) { newX = FIX16(SCREEN_W - F16_toInt(PLAYER_DIMENSION)); };
+    if (newX < FIX16(WALL_BLOCK_SIZE)) { newX = FIX16(WALL_BLOCK_SIZE); }
+    else if (newX > FIX16(SCREEN_W - (WALL_BLOCK_SIZE + CHARACTER_DIMENSION))) { newX = FIX16(SCREEN_W - (WALL_BLOCK_SIZE + CHARACTER_DIMENSION)); };
 
-    if (newY < FIX16(PLAYER_DIMENSION)) { newY = FIX16(PLAYER_DIMENSION); };
-    if (newY > FIX16(SCREEN_H - F16_toInt(PLAYER_DIMENSION))) { newY = FIX16(SCREEN_H - F16_toInt(PLAYER_DIMENSION)); };
+    if (newY < FIX16(WALL_BLOCK_SIZE)) { newY = FIX16(WALL_BLOCK_SIZE); }
+    else if (newY > FIX16(SCREEN_H - (WALL_BLOCK_SIZE + CHARACTER_DIMENSION))) { newY = FIX16(SCREEN_H - (WALL_BLOCK_SIZE + CHARACTER_DIMENSION)); };
 
     CharacterReference->_Node._Position._X = newX;
     CharacterReference->_Node._Position._Y = newY;
