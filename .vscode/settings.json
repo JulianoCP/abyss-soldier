@@ -25,6 +25,7 @@
         "wave_manager.h": "c",
         "character.h": "c",
         "stdlib.h": "c",
-        "maths.h": "c"
+        "maths.h": "c",
+        "bullet.h": "c"
     },
 }

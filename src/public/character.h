@@ -24,13 +24,6 @@ typedef struct
 
 typedef struct 
 {
-    fix16 _Speed;
-    fix16 _Health;
-
-} Attribute;
-
-typedef struct 
-{
     Node _Node;
     Attribute _Attribute;
     Input _Input;
@@ -41,7 +34,6 @@ typedef struct
 u16 CharacterInit(Character* NodeReference, const SpriteDefinition* SpriteValue, const Position PositionValue, const Attribute AttributeValue, const u16 PaletteValue, u16 VRAMIndex);
 
 Input MakeInput(fix16 X, fix16 Y);
-Attribute MakeAttribute(fix16 Speed, fix16 Health);
 u16 GetCharacterSpeed(Character* CharacterReference, const bool IsDiagonal);
 
 void UpdateCharacterPosition(Character* CharacterReference);

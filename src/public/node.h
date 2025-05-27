@@ -18,6 +18,14 @@ typedef struct
 
 typedef struct 
 {
+    fix16 _Speed;
+    fix16 _Health;
+    fix16 _Damage;
+
+} Attribute;
+
+typedef struct 
+{
 	fix16 _X;
 	fix16 _Y;
 
@@ -32,7 +40,9 @@ typedef struct
 } Node;
 
 u16 NodeInit(Node* NodeReference, const SpriteDefinition* SpriteValue, const Position PositionValue, const u8 PaletteValue, u16 VRAMIndex);
+
 Position GetSafeRandomScreenPosition();
+Attribute MakeAttribute(fix16 Speed, fix16 Health, fix16 Damage);
 Position MakePosition(fix16 X, fix16 Y);
 
 #endif

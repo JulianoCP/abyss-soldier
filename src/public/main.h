@@ -9,6 +9,7 @@
 #include "public/player.h"
 #include "public/enemy.h"
 #include "public/wave.h"
+#include "public/controller.h"
 
 #ifndef _MAIN_H_
 #define _MAIN_H_

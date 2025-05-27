@@ -16,7 +16,7 @@ int main(bool HardReset)
     while (TRUE)
     {
         UpdateWave(&Player);
-        UpdatePlayer(Enemies, EnemyCount);
+        UpdateController(Enemies, EnemyCount);
         
         SPR_update();
         SYS_doVBlankProcess();
@@ -36,6 +36,6 @@ void GameInit()
     VDP_setScreenWidth320();
     
     VRAMTileIndex += MapInit(VRAMTileIndex);
-    VRAMTileIndex += PlayerInit(VRAMTileIndex);
+    VRAMTileIndex += ControllerInit(VRAMTileIndex);
     VRAMTileIndex += WaveManagerInit(VRAMTileIndex);
 }

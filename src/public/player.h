@@ -16,18 +16,17 @@
 #define NUM_DIRECTIONS 8
 #define DIRECTION_TOLERANCE 4
 
-extern Character Player;
 extern u8 OldButtons[NUMBER_OF_JOYPADS];
 extern u8 CurrentButtons[NUMBER_OF_JOYPADS];
 
-u16 PlayerInit(u16 ind);
+u16 PlayerInit(u16 VRAMIndex, Character* PlayerReference);
 s16 GetDirectionIndex(s16 X, s16 Y);
-fix16 GetDistanceSquared(Position TargetPosition);
-Character* FindNearbyTarget(Character* ListOfEnemies[], u16 EnemyCount);
+fix16 GetDistanceSquared(Character* PlayerReference, Position TargetPosition);
+Character* FindNearbyTarget(Character* PlayerReference, Character* ListOfEnemies[], u16 EnemyCount);
 
 void UpdatePlayerInputs();
-void UpdatePlayer(Character* ListOfEnemies[], u16 EnemyCount);
-void UpdatePlayerTarget(Character* ListOfEnemies[], u16 EnemyCount);
+void UpdatePlayer(Character* PlayerReference, Character* ListOfEnemies[], u16 EnemyCount);
+void UpdatePlayerTarget(Character* PlayerReference, Character* ListOfEnemies[], u16 EnemyCount);
 
 bool IsBitset(u8 Value, u8 Bit);
 bool IsKeyReleased(u8 JoyId, u8 Key);

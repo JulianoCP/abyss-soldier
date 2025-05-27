@@ -10,12 +10,6 @@ u16 CharacterInit(Character* CharacterReference, const SpriteDefinition* SpriteV
     return NodeInit(&CharacterReference->_Node, SpriteValue, PositionValue, PaletteValue, VRAMIndex);
 }
 
-Attribute MakeAttribute(fix16 Speed, fix16 Health)
-{
-    Attribute newAttribute = { ._Speed = Speed, ._Health = Health };
-    return newAttribute;
-}
-
 Input MakeInput(fix16 X, fix16 Y)
 {
     Input newInput = { ._X = X, ._Y = Y };

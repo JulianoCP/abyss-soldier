@@ -1,41 +1,40 @@
 #include "public/player.h"
 
-Character Player;
 u8 OldButtons[NUMBER_OF_JOYPADS] = {0};
 u8 CurrentButtons[NUMBER_OF_JOYPADS] = {0};
 
-u16 PlayerInit(u16 VRAMIndex)
+u16 PlayerInit(u16 VRAMIndex, Character* PlayerReference)
 {
-    VRAMIndex += CharacterInit(&Player, &SoldierImage, MakePosition(FIX16((SCREEN_W / 2 ) - 16), FIX16((SCREEN_H / 2 ) - 16)), MakeAttribute(FIX16(INIT_PLAYER_SPEED), FIX16(INIT_PLAYER_HEALTH)), PAL_PLAYER, VRAMIndex);
+    VRAMIndex += CharacterInit(PlayerReference, &SoldierImage, MakePosition(FIX16((SCREEN_W / 2 ) - 16), FIX16((SCREEN_H / 2 ) - 16)), MakeAttribute(FIX16(INIT_PLAYER_SPEED), FIX16(INIT_PLAYER_HEALTH), FIX16(5)), PAL_PLAYER, VRAMIndex);
     return VRAMIndex;
 }
 
-void UpdatePlayer(Character* ListOfEnemies[], u16 EnemyCount)
+void UpdatePlayer(Character* PlayerReference, Character* ListOfEnemies[], u16 EnemyCount)
 {
-    UpdatePlayerInputs();
+    UpdatePlayerInputs(PlayerReference);
 
-    UpdateCharacterPosition(&Player);
-    UpdatePlayerTarget(ListOfEnemies, EnemyCount);
+    UpdateCharacterPosition(PlayerReference);
+    UpdatePlayerTarget(PlayerReference, ListOfEnemies, EnemyCount);
 }
 
-void UpdatePlayerTarget(Character* ListOfEnemies[], u16 EnemyCount)
+void UpdatePlayerTarget(Character* PlayerReference, Character* ListOfEnemies[], u16 EnemyCount)
 {
-    const Character* targetReference = FindNearbyTarget(ListOfEnemies, EnemyCount);
+    const Character* targetReference = FindNearbyTarget(PlayerReference, ListOfEnemies, EnemyCount);
 
     if (!targetReference)
     {
        return;
     }
 
-    const s16 distanceToX = F16_toInt(targetReference->_Node._Position._X - Player._Node._Position._X);
-    const s16 distanceToY = F16_toInt(targetReference->_Node._Position._Y - Player._Node._Position._Y);
+    const s16 distanceToX = F16_toInt(targetReference->_Node._Position._X - PlayerReference->_Node._Position._X);
+    const s16 distanceToY = F16_toInt(targetReference->_Node._Position._Y - PlayerReference->_Node._Position._Y);
 
-    SPR_setAnim(Player._Node._Sprite, GetDirectionIndex(distanceToX, distanceToY));
+    SPR_setAnim(PlayerReference->_Node._Sprite, GetDirectionIndex(distanceToX, distanceToY));
 }
 
-void UpdatePlayerInputs() 
+void UpdatePlayerInputs(Character* PlayerReference) 
 {
-    ClearCharacterInputs(&Player);
+    ClearCharacterInputs(PlayerReference);
 
     for (s16 joyIndex = (NUMBER_OF_JOYPADS - 1); joyIndex >= 0; --joyIndex) 
     {
@@ -43,13 +42,13 @@ void UpdatePlayerInputs()
 		CurrentButtons[joyIndex] = JOY_readJoypad(joyIndex);
 	}
     
-    if (IsKeyDown(JOY_1, BUTTON_LEFT)) { Player._Input._X = -1; }
-    if (IsKeyDown(JOY_1, BUTTON_RIGHT)) { Player._Input._X = 1; }
-    if (IsKeyDown(JOY_1, BUTTON_UP)) { Player._Input._Y = -1; }
-    if (IsKeyDown(JOY_1, BUTTON_DOWN)) { Player._Input._Y = 1; }
+    if (IsKeyDown(JOY_1, BUTTON_LEFT)) { PlayerReference->_Input._X = -1; }
+    if (IsKeyDown(JOY_1, BUTTON_RIGHT)) { PlayerReference->_Input._X = 1; }
+    if (IsKeyDown(JOY_1, BUTTON_UP)) { PlayerReference->_Input._Y = -1; }
+    if (IsKeyDown(JOY_1, BUTTON_DOWN)) { PlayerReference->_Input._Y = 1; }
 }
 
-Character* FindNearbyTarget(Character* ListOfEnemies[], u16 EnemyCount)
+Character* FindNearbyTarget(Character* PlayerReference, Character* ListOfEnemies[], u16 EnemyCount)
 {
     if (EnemyCount == 0)
     {
@@ -68,7 +67,7 @@ Character* FindNearbyTarget(Character* ListOfEnemies[], u16 EnemyCount)
             continue;
         }
 
-        fix16 distResult = GetDistanceSquared(enemyReference->_Node._Position);
+        fix16 distResult = GetDistanceSquared(PlayerReference, enemyReference->_Node._Position);
 
         if (distResult < closestDist)
         {
@@ -80,10 +79,10 @@ Character* FindNearbyTarget(Character* ListOfEnemies[], u16 EnemyCount)
     return closestEnemy;
 }
 
-fix16 GetDistanceSquared(Position TargetPosition)
+fix16 GetDistanceSquared(Character* PlayerReference, Position TargetPosition)
 {
-    const fix16 distanceToX = Player._Node._Position._X - TargetPosition._X;
-    const fix16 distanceToY = Player._Node._Position._Y - TargetPosition._Y;
+    const fix16 distanceToX = PlayerReference->_Node._Position._X - TargetPosition._X;
+    const fix16 distanceToY = PlayerReference->_Node._Position._Y - TargetPosition._Y;
 
     return FIX16(F16_mul(distanceToX, distanceToX) + F16_mul(distanceToY, distanceToY));
 }

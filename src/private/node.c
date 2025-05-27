@@ -22,6 +22,13 @@ Position MakePosition(fix16 X, fix16 Y)
     return positionResult;
 }
 
+
+Attribute MakeAttribute(fix16 Speed, fix16 Health, fix16 Damage)
+{
+    Attribute newAttribute = { ._Speed = Speed, ._Health = Health, ._Damage = Damage };
+    return newAttribute;
+}
+
 Position GetSafeRandomScreenPosition()
 {
     Position positionResult;
