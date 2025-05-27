@@ -8,13 +8,6 @@
 
 typedef struct 
 {
-    s8 _X;
-    s8 _Y;
-
-} Direction;
-
-typedef struct 
-{
     fix16 _X;
     fix16 _Y;
 
@@ -37,18 +30,16 @@ typedef struct
 typedef struct 
 {
     Node _Node;
-    Direction _Direction;
-    Input _Input;
     Attribute _Attribute;
+    Input _Input;
     Velocity _Velocity;
     
 } Character;
 
 u16 CharacterInit(Character* NodeReference, const SpriteDefinition* SpriteValue, const Position PositionValue, const Attribute AttributeValue, const u16 PaletteValue, u16 VRAMIndex);
 
-Input MakeInput(f16 X, f16 Y);
-Attribute MakeAttribute(f16 Speed, f16 Health);
-
+Input MakeInput(fix16 X, fix16 Y);
+Attribute MakeAttribute(fix16 Speed, fix16 Health);
 u16 GetCharacterSpeed(Character* CharacterReference, const bool IsDiagonal);
 
 void UpdateCharacterPosition(Character* CharacterReference);

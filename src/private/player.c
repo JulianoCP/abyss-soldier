@@ -10,45 +10,46 @@ u16 PlayerInit(u16 VRAMIndex)
     return VRAMIndex;
 }
 
-void PlayerUpdate(Character* Enemies[], u16 EnemyCount)
+void UpdatePlayer(Character* ListOfEnemies[], u16 EnemyCount)
 {
-    ClearCharacterInputs(&Player);
     UpdatePlayerInputs();
 
     UpdateCharacterPosition(&Player);
-    UpdatePlayerTarget(Enemies, EnemyCount);
+    UpdatePlayerTarget(ListOfEnemies, EnemyCount);
 }
 
-void UpdatePlayerTarget(Character* Enemies[], u16 EnemyCount)
+void UpdatePlayerTarget(Character* ListOfEnemies[], u16 EnemyCount)
 {
-    Character* targetReference = FindNearbyTarget(Enemies, EnemyCount);
+    const Character* targetReference = FindNearbyTarget(ListOfEnemies, EnemyCount);
 
     if (!targetReference)
     {
        return;
     }
 
-    s16 distanceToX = F16_toInt(targetReference->_Node._Position._X - Player._Node._Position._X);
-    s16 distanceToY = F16_toInt(targetReference->_Node._Position._Y - Player._Node._Position._Y);
+    const s16 distanceToX = F16_toInt(targetReference->_Node._Position._X - Player._Node._Position._X);
+    const s16 distanceToY = F16_toInt(targetReference->_Node._Position._Y - Player._Node._Position._Y);
 
     SPR_setAnim(Player._Node._Sprite, GetDirectionIndex(distanceToX, distanceToY));
 }
 
 void UpdatePlayerInputs() 
 {
+    ClearCharacterInputs(&Player);
+
     for (s16 joyIndex = (NUMBER_OF_JOYPADS - 1); joyIndex >= 0; --joyIndex) 
     {
 		OldButtons[joyIndex] = CurrentButtons[joyIndex];
 		CurrentButtons[joyIndex] = JOY_readJoypad(joyIndex);
 	}
     
-    if (IsKeyDown(JOY_1, BUTTON_LEFT))  { Player._Input._X = -1; }
-    if (IsKeyDown(JOY_1, BUTTON_RIGHT)) { Player._Input._X =  1; }
-    if (IsKeyDown(JOY_1, BUTTON_UP))    { Player._Input._Y = -1; }
-    if (IsKeyDown(JOY_1, BUTTON_DOWN))  { Player._Input._Y =  1; }
+    if (IsKeyDown(JOY_1, BUTTON_LEFT)) { Player._Input._X = -1; }
+    if (IsKeyDown(JOY_1, BUTTON_RIGHT)) { Player._Input._X = 1; }
+    if (IsKeyDown(JOY_1, BUTTON_UP)) { Player._Input._Y = -1; }
+    if (IsKeyDown(JOY_1, BUTTON_DOWN)) { Player._Input._Y = 1; }
 }
 
-Character* FindNearbyTarget(Character* Enemies[], u16 EnemyCount)
+Character* FindNearbyTarget(Character* ListOfEnemies[], u16 EnemyCount)
 {
     if (EnemyCount == 0)
     {
@@ -60,7 +61,7 @@ Character* FindNearbyTarget(Character* Enemies[], u16 EnemyCount)
 
     for (u16 enemyIndex = 0; enemyIndex < EnemyCount; enemyIndex++)
     {
-        Character* enemyReference = Enemies[enemyIndex];
+        Character* enemyReference = ListOfEnemies[enemyIndex];
 
         if (!enemyReference)
         {
@@ -81,8 +82,8 @@ Character* FindNearbyTarget(Character* Enemies[], u16 EnemyCount)
 
 fix16 GetDistanceSquared(Position TargetPosition)
 {
-    fix16 distanceToX = TargetPosition._X - Player._Node._Position._X;
-    fix16 distanceToY = TargetPosition._Y - Player._Node._Position._Y;
+    const fix16 distanceToX = TargetPosition._X - Player._Node._Position._X;
+    const fix16 distanceToY = TargetPosition._Y - Player._Node._Position._Y;
 
     return FIX16(F16_mul(distanceToX, distanceToX) + F16_mul(distanceToY, distanceToY));
 }

@@ -16,5 +16,6 @@ extern Character* Enemies[MAX_ENEMIES];
 
 u16 WaveManagerInit(u16 VRAMIndex);
 u16 AddEnemy(u16 VRAMIndex);
+void UpdateWave(Character* PlayerReference);
 
 #endif

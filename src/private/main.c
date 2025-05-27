@@ -15,7 +15,8 @@ int main(bool HardReset)
 
     while (TRUE)
     {
-        PlayerUpdate(Enemies, EnemyCount);
+        UpdateWave(&Player);
+        UpdatePlayer(Enemies, EnemyCount);
         
         SPR_update();
         SYS_doVBlankProcess();
