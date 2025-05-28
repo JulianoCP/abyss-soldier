@@ -2,12 +2,16 @@
 
 u16 EnemyInit(u16 VRAMIndex, Character* EnemyReference)
 {
+    if (!EnemyReference) { return VRAMIndex; };
+
     VRAMIndex += CharacterInit(EnemyReference, &EnemySprite, GetSafeRandomScreenPosition(), MakeAttribute(FIX16(INIT_ENEMY_SPEED), FIX16(INIT_ENEMY_HEALTH), FIX16(5)), PAL_ENEMY, VRAMIndex);
     return VRAMIndex;
 }
 
 void UpdateEnemy(Character* EnemyReference, const Character* PlayerReference)
 {
+    if (!EnemyReference || !PlayerReference) { return; };
+
     UpdateEnemyInputs(EnemyReference, PlayerReference);
     UpdateCharacterPosition(EnemyReference);
 }

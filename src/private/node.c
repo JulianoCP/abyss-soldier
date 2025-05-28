@@ -2,6 +2,8 @@
 
 u16 NodeInit(Node* NodeReference, const SpriteDefinition* SpriteValue, const Position PositionValue, const u8 PaletteValue, u16 VRAMIndex)
 {
+    if (!NodeReference) { return VRAMIndex; };
+
     NodeReference->_Position._Y = PositionValue._Y;
     NodeReference->_Position._X = PositionValue._X;
 
@@ -14,24 +16,6 @@ u16 NodeInit(Node* NodeReference, const SpriteDefinition* SpriteValue, const Pos
     NodeReference->_Dimension._H = NodeReference->_Sprite->definition->h;
 
     return NodeReference->_Sprite->definition->maxNumTile;
-}
-
-Position MakePosition(fix16 X, fix16 Y)
-{
-    Position positionResult = { ._X = X, ._Y = Y };
-    return positionResult;
-}
-
-Direction MakeDirection(fix16 X, fix16 Y)
-{
-    Direction directionResult = { ._X = X, ._Y = Y };
-    return directionResult;
-}
-
-Attribute MakeAttribute(fix16 Speed, fix16 Health, fix16 Damage)
-{
-    Attribute newAttribute = { ._Speed = Speed, ._Health = Health, ._Damage = Damage };
-    return newAttribute;
 }
 
 Position GetSafeRandomScreenPosition()
@@ -48,4 +32,22 @@ Position GetSafeRandomScreenPosition()
     positionResult._Y = FIX16(minY + (random() % (maxY - minY)));
 
     return positionResult;
+}
+
+Position MakePosition(const fix16 X, const fix16 Y)
+{
+    Position positionResult = { ._X = X, ._Y = Y };
+    return positionResult;
+}
+
+Direction MakeDirection(const fix16 X, const fix16 Y)
+{
+    Direction directionResult = { ._X = X, ._Y = Y };
+    return directionResult;
+}
+
+Attribute MakeAttribute(const fix16 Speed, const fix16 Health, const fix16 Damage)
+{
+    Attribute newAttribute = { ._Speed = Speed, ._Health = Health, ._Damage = Damage };
+    return newAttribute;
 }

@@ -7,8 +7,3 @@ u16 MapInit(u16 VRAMIndex)
 
     return MapBackground.tileset->numTile;
 }
-
-void MapUpdate()
-{
-    
-}

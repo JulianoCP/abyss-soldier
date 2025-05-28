@@ -2,6 +2,8 @@
 
 u16 CharacterInit(Character* CharacterReference, const SpriteDefinition* SpriteValue, const Position PositionValue, const Attribute AttributeValue, const u16 PaletteValue, u16 VRAMIndex)
 {
+    if (!CharacterReference) { return VRAMIndex; };
+
     ClearCharacterInputs(CharacterReference);
 
     CharacterReference->_Attribute._Speed = AttributeValue._Speed;
@@ -10,14 +12,10 @@ u16 CharacterInit(Character* CharacterReference, const SpriteDefinition* SpriteV
     return NodeInit(&CharacterReference->_Node, SpriteValue, PositionValue, PaletteValue, VRAMIndex);
 }
 
-Input MakeInput(fix16 X, fix16 Y, bool IsFiring)
-{
-    Input newInput = { ._X = X, ._Y = Y, ._IsFiring = IsFiring };
-    return newInput;
-}
-
 void ClearCharacterInputs(Character* CharacterReference)
 {
+    if (!CharacterReference) { return; };
+
     CharacterReference->_Input._X = FIX16(0);
     CharacterReference->_Input._Y = FIX16(0);
     CharacterReference->_Input._IsFiring = FALSE;
@@ -26,18 +24,17 @@ void ClearCharacterInputs(Character* CharacterReference)
     CharacterReference->_Velocity._Y = FIX16(0);
 }
 
-u16 GetCharacterSpeed(Character* CharacterReference, const bool IsDiagonal)
+fix16 GetCharacterSpeed(Character* CharacterReference, const bool IsDiagonal)
 {
-    if (IsDiagonal)
-    {  
-        return F16_mul(DIAGONAL_FIX, CharacterReference->_Attribute._Speed);
-    }
+    if (!CharacterReference) { return FIX16(0); };
 
-    return CharacterReference->_Attribute._Speed;
+    return IsDiagonal ? F16_mul(DIAGONAL_FIX, CharacterReference->_Attribute._Speed) : CharacterReference->_Attribute._Speed;
 }
 
 void UpdateCharacterVelocity(Character* CharacterReference)
 {
+    if (!CharacterReference) { return; };
+
     const fix16 characterSpeed = GetCharacterSpeed(CharacterReference, (CharacterReference->_Input._X != FIX16(0) && CharacterReference->_Input._Y != FIX16(0)));
 
     CharacterReference->_Velocity._X = F16_mul(characterSpeed, CharacterReference->_Input._X);
@@ -46,6 +43,8 @@ void UpdateCharacterVelocity(Character* CharacterReference)
 
 void UpdateCharacterPosition(Character* CharacterReference)
 {
+    if (!CharacterReference) { return; };
+    
     UpdateCharacterVelocity(CharacterReference);
 
     fix16 newX = CharacterReference->_Node._Position._X + CharacterReference->_Velocity._X;
@@ -61,4 +60,10 @@ void UpdateCharacterPosition(Character* CharacterReference)
     CharacterReference->_Node._Position._Y = newY;
 
     SPR_setPosition(CharacterReference->_Node._Sprite, F16_toInt(CharacterReference->_Node._Position._X), F16_toInt(CharacterReference->_Node._Position._Y));
+}
+
+Input MakeInput(const fix16 X, const fix16 Y, const bool IsFiring)
+{
+    Input newInput = { ._X = X, ._Y = Y, ._IsFiring = IsFiring };
+    return newInput;
 }

@@ -36,7 +36,7 @@ u16 AddPlayerBullet(u16 VRAMIndex, Character* PlayerReference)
     return BulletInit(newBullet, &BulletSprite, PlayerReference->_Node._Position, MakeAttribute(FIX16(BULLET_SPEED), FIX16(BULLET_HEALTH), FIX16(INIT_PLAYER_DAMAGE)), PAL_BULLET, VRAMIndex);
 }
 
-void UpdatePlayer(Character* PlayerReference, Character* ListOfEnemies[], u16 EnemyCount)
+void UpdatePlayer(Character* PlayerReference, Character* ListOfEnemies[], const u16 EnemyCount)
 {
     if (!PlayerReference) { return; };
 
@@ -57,7 +57,7 @@ void UpdatePlayerBullets(Character* PlayerReference)
     }
 }
 
-void UpdatePlayerTarget(Character* PlayerReference, Character* ListOfEnemies[], u16 EnemyCount)
+void UpdatePlayerTarget(Character* PlayerReference, Character* ListOfEnemies[], const u16 EnemyCount)
 {
     if (!PlayerReference) { return; };
 
@@ -110,7 +110,7 @@ void UpdatePlayerInputs(Character* PlayerReference)
     if (IsKeyDown(JOY_1, BUTTON_B)) { PlayerReference->_Input._IsFiring = TRUE; }
 }
 
-Character* FindNearbyTarget(Character* PlayerReference, Character* ListOfEnemies[], u16 EnemyCount)
+Character* FindNearbyTarget(Character* PlayerReference, Character* ListOfEnemies[], const u16 EnemyCount)
 {
     if (EnemyCount == 0)
     {
@@ -141,7 +141,7 @@ Character* FindNearbyTarget(Character* PlayerReference, Character* ListOfEnemies
     return closestEnemy;
 }
 
-fix16 GetDistanceSquared(Character* PlayerReference, Position TargetPosition)
+fix16 GetDistanceSquared(Character* PlayerReference, const Position TargetPosition)
 {
     const fix16 distanceToX = PlayerReference->_Node._Position._X - TargetPosition._X;
     const fix16 distanceToY = PlayerReference->_Node._Position._Y - TargetPosition._Y;
@@ -149,7 +149,7 @@ fix16 GetDistanceSquared(Character* PlayerReference, Position TargetPosition)
     return FIX16(F16_mul(distanceToX, distanceToX) + F16_mul(distanceToY, distanceToY));
 }
 
-s16 GetDirectionIndex(s16 X, s16 Y)
+s16 GetDirectionIndex(const s16 X, const s16 Y)
 {
     if (X != 0 || Y != 0)
     {
@@ -168,22 +168,22 @@ s16 GetDirectionIndex(s16 X, s16 Y)
     return 0;
 }
 
-bool IsBitset(u8 Value, u8 Bit) 
+bool IsBitset(const u8 Value, const u8 Bit) 
 {
     return ((Value & Bit) == Bit);
 }
 
-bool IsKeyDown(u8 JoyId, u8 Key) 
+bool IsKeyDown(const u8 JoyId, const u8 Key) 
 {
     return IsBitset(CurrentButtons[JoyId], Key);
 }
 
-bool IsKeyPressed(u8 JoyId, u8 Key) 
+bool IsKeyPressed(const u8 JoyId, const u8 Key) 
 {
     return IsBitset(CurrentButtons[JoyId], Key) && !IsBitset(OldButtons[JoyId], Key);
 }
 
-bool IsKeyReleased(u8 JoyId, u8 Key) 
+bool IsKeyReleased(const u8 JoyId, const u8 Key) 
 {
     return !IsBitset(CurrentButtons[JoyId], Key) && IsBitset(OldButtons[JoyId], Key);
 }

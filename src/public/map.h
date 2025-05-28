@@ -8,6 +8,5 @@
 #define _BACKGROUND_H_
 
 u16 MapInit(u16 VRAMIndex);
-void MapUpdate();
 
 #endif

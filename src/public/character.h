@@ -28,8 +28,8 @@ typedef struct
 
 u16 CharacterInit(Character* NodeReference, const SpriteDefinition* SpriteValue, const Position PositionValue, const Attribute AttributeValue, const u16 PaletteValue, u16 VRAMIndex);
 
-Input MakeInput(fix16 X, fix16 Y, bool IsFiring);
-u16 GetCharacterSpeed(Character* CharacterReference, const bool IsDiagonal);
+Input MakeInput(const fix16 X, const fix16 Y, const bool IsFiring);
+fix16 GetCharacterSpeed(Character* CharacterReference, const bool IsDiagonal);
 
 void UpdateCharacterPosition(Character* CharacterReference);
 void ClearCharacterInputs(Character* CharacterReference);

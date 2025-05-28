@@ -46,14 +46,11 @@ void UpdateBullet(Bullet* BulletReference)
     UpdateBulletPosition(BulletReference);
 }
 
-u16 GetBulletSpeed(Bullet* BulletReference, const bool IsDiagonal)
+fix16 GetBulletSpeed(Bullet* BulletReference, const bool IsDiagonal)
 {
-    if (IsDiagonal)
-    {  
-        return F16_mul(DIAGONAL_FIX, BulletReference->_Attribute._Speed);
-    }
+    if (!BulletReference) { return FIX16(0); };
 
-    return BulletReference->_Attribute._Speed;
+    return IsDiagonal ? F16_mul(DIAGONAL_FIX, BulletReference->_Attribute._Speed) : BulletReference->_Attribute._Speed;
 }
 
 void UpdateBulletVelocity(Bullet* BulletReference)
