@@ -3,9 +3,7 @@
 #include <maths.h>
 #include <tools.h>
 
-#include "public/node.h"
-#include "public/library.h"
-#include "public/character.h"
+#include "public/base/character.h"
 
 #ifndef _ENEMY_H_
 #define _ENEMY_H_

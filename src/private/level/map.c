@@ -1,4 +1,4 @@
-#include "public/map.h"
+#include "public/level/map.h"
 
 u16 MapInit(u16 VRAMIndex)
 {

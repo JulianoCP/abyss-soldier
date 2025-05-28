@@ -1,4 +1,4 @@
-#include "public/enemy.h"
+#include "public/entities/enemy.h"
 
 u16 EnemyInit(u16 VRAMIndex, Character* EnemyReference)
 {

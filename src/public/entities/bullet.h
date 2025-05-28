@@ -3,7 +3,7 @@
 #include <maths.h>
 #include <tools.h>
 
-#include "public/node.h"
+#include "public/base/node.h"
 
 #ifndef _BULLET_H_
 #define _BULLET_H_

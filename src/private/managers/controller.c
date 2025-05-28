@@ -1,4 +1,4 @@
-#include "public/controller.h"
+#include "public/managers/controller.h"
 
 Character Player;
 

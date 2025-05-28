@@ -1,4 +1,4 @@
-#include "public/player.h"
+#include "public/entities/player.h"
 
 u16 BulletCount = 0;
 Bullet* Bullets[MAX_BULLETS];

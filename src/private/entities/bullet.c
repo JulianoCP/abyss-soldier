@@ -1,4 +1,4 @@
-#include "public/bullet.h"
+#include "public/entities/bullet.h"
 
 u16 BulletInit(Bullet* BulletReference, const SpriteDefinition* SpriteValue, const Position PositionValue, const Attribute AttributeValue, const u16 PaletteValue, u16 VRAMIndex)
 {

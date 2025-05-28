@@ -3,13 +3,10 @@
 #include <maths.h>
 #include <tools.h>
 
-#include "resource.h"
-#include "public/map.h"
-#include "public/library.h"
-#include "public/player.h"
-#include "public/enemy.h"
-#include "public/wave.h"
-#include "public/controller.h"
+#include "public/level/map.h"
+#include "public/utils/library.h"
+#include "public/managers/wave.h"
+#include "public/managers/controller.h"
 
 #ifndef _MAIN_H_
 #define _MAIN_H_

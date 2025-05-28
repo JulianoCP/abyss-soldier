@@ -1,4 +1,4 @@
-#include "public/character.h"
+#include "public/base/character.h"
 
 u16 CharacterInit(Character* CharacterReference, const SpriteDefinition* SpriteValue, const Position PositionValue, const Attribute AttributeValue, const u16 PaletteValue, u16 VRAMIndex)
 {

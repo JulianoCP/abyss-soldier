@@ -1,4 +1,4 @@
-#include "public/wave.h"
+#include "public/managers/wave.h"
 
 u16 EnemyCount = 0;
 Character* Enemies[MAX_ENEMIES];

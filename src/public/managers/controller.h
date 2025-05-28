@@ -1,9 +1,7 @@
 #include <genesis.h>
 #include <sprite_eng.h>
 
-#include "resource.h"
-#include "public/library.h"
-#include "public/player.h"
+#include "public/entities/player.h"
 
 #ifndef _CONTROLLER_H_
 #define _CONTROLLER_H_

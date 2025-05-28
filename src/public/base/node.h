@@ -3,8 +3,7 @@
 #include <maths.h>
 #include <tools.h>
 
-#include "resource.h"
-#include "public/library.h"
+#include "public/utils/library.h"
 
 #ifndef _NODE_H_
 #define _NODE_H_

@@ -3,9 +3,7 @@
 #include <maths.h>
 #include <tools.h>
 
-#include "public/node.h"
-#include "public/library.h"
-#include "public/enemy.h"
+#include "public/entities/enemy.h"
 
 #ifndef _WAVE_H_
 #define _WAVE_H_

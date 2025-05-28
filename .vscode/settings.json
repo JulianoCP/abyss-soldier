@@ -26,6 +26,7 @@
         "character.h": "c",
         "stdlib.h": "c",
         "maths.h": "c",
-        "bullet.h": "c"
+        "bullet.h": "c",
+        "wave.h": "c"
     },
 }

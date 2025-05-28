@@ -3,9 +3,8 @@
 #include <maths.h>
 #include <tools.h>
 
-#include "public/library.h"
-#include "public/character.h"
-#include "public/bullet.h"
+#include "public/base/character.h"
+#include "public/entities/bullet.h"
 
 #ifndef _PLAYER_H_
 #define _PLAYER_H_

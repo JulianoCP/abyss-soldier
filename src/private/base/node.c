@@ -1,4 +1,4 @@
-#include "public/node.h"
+#include "public/base/node.h"
 
 u16 NodeInit(Node* NodeReference, const SpriteDefinition* SpriteValue, const Position PositionValue, const u8 PaletteValue, u16 VRAMIndex)
 {
