@@ -8,19 +8,23 @@ u8 CurrentButtons[NUMBER_OF_JOYPADS];
 
 u16 PlayerInit(u16 VRAMIndex, Character* PlayerReference)
 {
+    if (!PlayerReference) { return VRAMIndex; };
+    
     VRAMIndex += CharacterInit(PlayerReference, &SoldierSprite, MakePosition(FIX16((SCREEN_W / 2 ) - 16), FIX16((SCREEN_H / 2 ) - 16)), MakeAttribute(FIX16(INIT_PLAYER_SPEED), FIX16(INIT_PLAYER_HEALTH), FIX16(INIT_PLAYER_DAMAGE)), PAL_PLAYER, VRAMIndex);
 
     while (MAX_BULLETS > BulletCount)
     {
-        VRAMIndex += AddBullet(VRAMIndex, PlayerReference);
+        VRAMIndex += AddPlayerBullet(VRAMIndex, PlayerReference);
         BulletCount++;
     }
 
     return VRAMIndex;
 }
 
-u16 AddBullet(u16 VRAMIndex, Character* PlayerReference)
+u16 AddPlayerBullet(u16 VRAMIndex, Character* PlayerReference)
 {
+    if (!PlayerReference) { return VRAMIndex; };
+
     Bullet* newBullet = malloc(sizeof(Bullet));
 
     if (!newBullet)
@@ -34,14 +38,29 @@ u16 AddBullet(u16 VRAMIndex, Character* PlayerReference)
 
 void UpdatePlayer(Character* PlayerReference, Character* ListOfEnemies[], u16 EnemyCount)
 {
-    UpdatePlayerInputs(PlayerReference);
+    if (!PlayerReference) { return; };
 
+    UpdatePlayerInputs(PlayerReference);
     UpdateCharacterPosition(PlayerReference);
+    
+    UpdatePlayerBullets(PlayerReference);
     UpdatePlayerTarget(PlayerReference, ListOfEnemies, EnemyCount);
+}
+
+void UpdatePlayerBullets(Character* PlayerReference)
+{
+    if (!PlayerReference) { return; };
+
+    for (u16 bulletIndex = 0; bulletIndex < MAX_BULLETS; bulletIndex++)
+    {
+        UpdateBullet(Bullets[bulletIndex]);
+    }
 }
 
 void UpdatePlayerTarget(Character* PlayerReference, Character* ListOfEnemies[], u16 EnemyCount)
 {
+    if (!PlayerReference) { return; };
+
     const Character* targetReference = FindNearbyTarget(PlayerReference, ListOfEnemies, EnemyCount);
 
     if (!targetReference)
@@ -49,14 +68,33 @@ void UpdatePlayerTarget(Character* PlayerReference, Character* ListOfEnemies[], 
        return;
     }
 
-    const s16 distanceToX = F16_toInt(targetReference->_Node._Position._X - PlayerReference->_Node._Position._X);
-    const s16 distanceToY = F16_toInt(targetReference->_Node._Position._Y - PlayerReference->_Node._Position._Y);
+    PlayerReference->_Direction._X = targetReference->_Node._Position._X - PlayerReference->_Node._Position._X;
+    PlayerReference->_Direction._Y = targetReference->_Node._Position._Y - PlayerReference->_Node._Position._Y;
 
-    SPR_setAnim(PlayerReference->_Node._Sprite, GetDirectionIndex(distanceToX, distanceToY));
+    SPR_setAnim(PlayerReference->_Node._Sprite, GetDirectionIndex(PlayerReference->_Direction._X, PlayerReference->_Direction._Y));
+    UpdatePlayerShooting(PlayerReference, targetReference);
+}
+
+void UpdatePlayerShooting(const Character* PlayerReference, const Character* TargetReference)
+{
+    if (!PlayerReference || !PlayerReference->_Input._IsFiring) { return; };
+
+    for (u16 bulletIndex = 0; bulletIndex < MAX_BULLETS; bulletIndex++)
+    {
+        if (!Bullets[bulletIndex] || Bullets[bulletIndex]->_IsActive)
+        {
+            continue;
+        }
+        
+        ActivateBullet(Bullets[bulletIndex], PlayerReference->_Node._Position, PlayerReference->_Direction);
+        return;
+    }
 }
 
 void UpdatePlayerInputs(Character* PlayerReference) 
 {
+    if (!PlayerReference) { return; };
+
     ClearCharacterInputs(PlayerReference);
 
     for (s16 joyIndex = (NUMBER_OF_JOYPADS - 1); joyIndex >= 0; --joyIndex) 
@@ -69,6 +107,7 @@ void UpdatePlayerInputs(Character* PlayerReference)
     if (IsKeyDown(JOY_1, BUTTON_RIGHT)) { PlayerReference->_Input._X = 1; }
     if (IsKeyDown(JOY_1, BUTTON_UP)) { PlayerReference->_Input._Y = -1; }
     if (IsKeyDown(JOY_1, BUTTON_DOWN)) { PlayerReference->_Input._Y = 1; }
+    if (IsKeyDown(JOY_1, BUTTON_B)) { PlayerReference->_Input._IsFiring = TRUE; }
 }
 
 Character* FindNearbyTarget(Character* PlayerReference, Character* ListOfEnemies[], u16 EnemyCount)

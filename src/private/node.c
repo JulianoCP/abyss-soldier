@@ -5,7 +5,7 @@ u16 NodeInit(Node* NodeReference, const SpriteDefinition* SpriteValue, const Pos
     NodeReference->_Position._Y = PositionValue._Y;
     NodeReference->_Position._X = PositionValue._X;
 
-    NodeReference->_Sprite = SPR_addSprite(SpriteValue, NodeReference->_Position._X, NodeReference->_Position._Y, TILE_ATTR_FULL(PaletteValue, FALSE, FALSE, 0, VRAMIndex));
+    NodeReference->_Sprite = SPR_addSprite(SpriteValue, NodeReference->_Position._X, NodeReference->_Position._Y, TILE_ATTR_FULL(PaletteValue, FALSE, FALSE, FALSE, VRAMIndex));
    
     PAL_setPalette(PaletteValue, SpriteValue->palette->data, FALSE);
     SPR_setPosition(NodeReference->_Sprite, F16_toInt(NodeReference->_Position._X), F16_toInt(NodeReference->_Position._Y));
@@ -20,6 +20,12 @@ Position MakePosition(fix16 X, fix16 Y)
 {
     Position positionResult = { ._X = X, ._Y = Y };
     return positionResult;
+}
+
+Direction MakeDirection(fix16 X, fix16 Y)
+{
+    Direction directionResult = { ._X = X, ._Y = Y };
+    return directionResult;
 }
 
 Attribute MakeAttribute(fix16 Speed, fix16 Health, fix16 Damage)

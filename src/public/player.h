@@ -28,19 +28,21 @@ extern u8 OldButtons[NUMBER_OF_JOYPADS];
 extern u8 CurrentButtons[NUMBER_OF_JOYPADS];
 
 u16 PlayerInit(u16 VRAMIndex, Character* PlayerReference);
-u16 AddBullet(u16 VRAMIndex, Character* PlayerReference);
+u16 AddPlayerBullet(u16 VRAMIndex, Character* PlayerReference);
 
 s16 GetDirectionIndex(s16 X, s16 Y);
 fix16 GetDistanceSquared(Character* PlayerReference, Position TargetPosition);
 Character* FindNearbyTarget(Character* PlayerReference, Character* ListOfEnemies[], u16 EnemyCount);
 
-void UpdatePlayerInputs();
-void UpdatePlayer(Character* PlayerReference, Character* ListOfEnemies[], u16 EnemyCount);
-void UpdatePlayerTarget(Character* PlayerReference, Character* ListOfEnemies[], u16 EnemyCount);
-
 bool IsBitset(u8 Value, u8 Bit);
 bool IsKeyReleased(u8 JoyId, u8 Key);
 bool IsKeyDown(u8 JoyId, u8 Key);
 bool IsKeyPressed(u8 JoyId, u8 Key);
+
+void UpdatePlayerInputs(Character* PlayerReference);
+void UpdatePlayerBullets(Character* PlayerReference);
+void UpdatePlayerShooting(const Character* PlayerReference, const Character* TargetReference);
+void UpdatePlayer(Character* PlayerReference, Character* ListOfEnemies[], u16 EnemyCount);
+void UpdatePlayerTarget(Character* PlayerReference, Character* ListOfEnemies[], u16 EnemyCount);
 
 #endif

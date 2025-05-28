@@ -10,9 +10,9 @@ u16 CharacterInit(Character* CharacterReference, const SpriteDefinition* SpriteV
     return NodeInit(&CharacterReference->_Node, SpriteValue, PositionValue, PaletteValue, VRAMIndex);
 }
 
-Input MakeInput(fix16 X, fix16 Y)
+Input MakeInput(fix16 X, fix16 Y, bool IsFiring)
 {
-    Input newInput = { ._X = X, ._Y = Y };
+    Input newInput = { ._X = X, ._Y = Y, ._IsFiring = IsFiring };
     return newInput;
 }
 
@@ -20,6 +20,7 @@ void ClearCharacterInputs(Character* CharacterReference)
 {
     CharacterReference->_Input._X = FIX16(0);
     CharacterReference->_Input._Y = FIX16(0);
+    CharacterReference->_Input._IsFiring = FALSE;
 
     CharacterReference->_Velocity._X = FIX16(0);
     CharacterReference->_Velocity._Y = FIX16(0);
@@ -35,7 +36,7 @@ u16 GetCharacterSpeed(Character* CharacterReference, const bool IsDiagonal)
     return CharacterReference->_Attribute._Speed;
 }
 
-void ProcessCharacterInputs(Character* CharacterReference)
+void UpdateCharacterVelocity(Character* CharacterReference)
 {
     const fix16 characterSpeed = GetCharacterSpeed(CharacterReference, (CharacterReference->_Input._X != FIX16(0) && CharacterReference->_Input._Y != FIX16(0)));
 
@@ -45,7 +46,7 @@ void ProcessCharacterInputs(Character* CharacterReference)
 
 void UpdateCharacterPosition(Character* CharacterReference)
 {
-    ProcessCharacterInputs(CharacterReference);
+    UpdateCharacterVelocity(CharacterReference);
 
     fix16 newX = CharacterReference->_Node._Position._X + CharacterReference->_Velocity._X;
     fix16 newY = CharacterReference->_Node._Position._Y + CharacterReference->_Velocity._Y;

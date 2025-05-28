@@ -14,14 +14,16 @@ void UpdateEnemy(Character* EnemyReference, const Character* PlayerReference)
 
 void UpdateEnemyInputs(Character* EnemyReference, const Character* PlayerReference)
 {
+    if (!EnemyReference) { return; };
+    
     ClearCharacterInputs(EnemyReference);
 
-    const s16 distanceToX = F16_toInt(PlayerReference->_Node._Position._X - EnemyReference->_Node._Position._X);
-    const s16 distanceToY = F16_toInt(PlayerReference->_Node._Position._Y - EnemyReference->_Node._Position._Y);
+    // EnemyReference->_Direction._X = PlayerReference->_Node._Position._X - EnemyReference->_Node._Position._X;
+    // EnemyReference->_Direction._Y = PlayerReference->_Node._Position._Y - EnemyReference->_Node._Position._Y;
 
-    if (distanceToX < -1) { EnemyReference->_Input._X = -1; }
-    else if (distanceToX > 1) { EnemyReference->_Input._X = 1; };
+    // if (EnemyReference->_Direction._X < -1) { EnemyReference->_Input._X = -1; }
+    // else if (EnemyReference->_Direction._X > 1) { EnemyReference->_Input._X = 1; };
 
-    if (distanceToY < -1) { EnemyReference->_Input._Y = -1; }
-    else if (distanceToY > 1) { EnemyReference->_Input._Y = 1; };
+    // if (EnemyReference->_Direction._Y < -1) { EnemyReference->_Input._Y = -1; }
+    // else if (EnemyReference->_Direction._Y > 1) { EnemyReference->_Input._Y = 1; };
 }
