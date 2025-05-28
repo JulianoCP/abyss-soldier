@@ -20,5 +20,6 @@ out/src/private/main.o: src/private/main.c src/public/main.h \
  C:/sgdk/inc/ext/console.h C:/sgdk/inc/config.h C:/sgdk/inc/string.h \
  C:/sgdk/inc/maths.h C:/sgdk/inc/dma.h C:/sgdk/inc/sprite_eng.h \
  C:/sgdk/inc/tools.h res/resource.h src/public/map.h src/public/library.h \
- src/public/player.h src/public/node.h src/public/character.h \
- src/public/enemy.h src/public/wave.h src/public/controller.h
+ src/public/player.h src/public/character.h src/public/node.h \
+ src/public/bullet.h src/public/enemy.h src/public/wave.h \
+ src/public/controller.h

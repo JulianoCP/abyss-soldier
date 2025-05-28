@@ -8,12 +8,15 @@
 #ifndef _BULLET_H_
 #define _BULLET_H_
 
-#define MAX_ENEMIES 1
-
 typedef struct 
 {
     Node _Node;
+    Attribute _Attribute;
+    Direction _Direction;
+    bool _IsActive; 
     
 } Bullet;
+
+u16 BulletInit(Bullet* BulletReference, const SpriteDefinition* SpriteValue, const Position PositionValue, const Attribute AttributeValue, const u16 PaletteValue, u16 VRAMIndex);
 
 #endif

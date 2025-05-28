@@ -18,6 +18,13 @@ typedef struct
 
 typedef struct 
 {
+	u16 _X;
+	u16 _Y;
+
+} Direction;
+
+typedef struct 
+{
     fix16 _Speed;
     fix16 _Health;
     fix16 _Damage;

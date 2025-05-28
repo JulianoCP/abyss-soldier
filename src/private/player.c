@@ -1,12 +1,35 @@
 #include "public/player.h"
 
-u8 OldButtons[NUMBER_OF_JOYPADS] = {0};
-u8 CurrentButtons[NUMBER_OF_JOYPADS] = {0};
+u16 BulletCount = 0;
+Bullet* Bullets[MAX_BULLETS];
+
+u8 OldButtons[NUMBER_OF_JOYPADS];
+u8 CurrentButtons[NUMBER_OF_JOYPADS];
 
 u16 PlayerInit(u16 VRAMIndex, Character* PlayerReference)
 {
-    VRAMIndex += CharacterInit(PlayerReference, &SoldierImage, MakePosition(FIX16((SCREEN_W / 2 ) - 16), FIX16((SCREEN_H / 2 ) - 16)), MakeAttribute(FIX16(INIT_PLAYER_SPEED), FIX16(INIT_PLAYER_HEALTH), FIX16(5)), PAL_PLAYER, VRAMIndex);
+    VRAMIndex += CharacterInit(PlayerReference, &SoldierSprite, MakePosition(FIX16((SCREEN_W / 2 ) - 16), FIX16((SCREEN_H / 2 ) - 16)), MakeAttribute(FIX16(INIT_PLAYER_SPEED), FIX16(INIT_PLAYER_HEALTH), FIX16(INIT_PLAYER_DAMAGE)), PAL_PLAYER, VRAMIndex);
+
+    while (MAX_BULLETS > BulletCount)
+    {
+        VRAMIndex += AddBullet(VRAMIndex, PlayerReference);
+        BulletCount++;
+    }
+
     return VRAMIndex;
+}
+
+u16 AddBullet(u16 VRAMIndex, Character* PlayerReference)
+{
+    Bullet* newBullet = malloc(sizeof(Bullet));
+
+    if (!newBullet)
+    {
+        return VRAMIndex;
+    }
+
+    Bullets[BulletCount] = newBullet;
+    return BulletInit(newBullet, &BulletSprite, PlayerReference->_Node._Position, MakeAttribute(FIX16(BULLET_SPEED), FIX16(BULLET_HEALTH), FIX16(INIT_PLAYER_DAMAGE)), PAL_BULLET, VRAMIndex);
 }
 
 void UpdatePlayer(Character* PlayerReference, Character* ListOfEnemies[], u16 EnemyCount)

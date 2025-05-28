@@ -13,6 +13,7 @@
 #define PAL_MAP PAL2
 #define PAL_PLAYER PAL0
 #define PAL_ENEMY PAL1
+#define PAL_BULLET PAL3
 
 #define SCREEN_W 320
 #define SCREEN_H 224
