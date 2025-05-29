@@ -48,6 +48,33 @@ void UpdateBullet(Bullet* BulletReference)
     UpdateBulletPosition(BulletReference);
 }
 
+void BulletCheckHitEnemies(Bullet* BulletReference, Character* ListOfEnemies[], const s16 EnemyCount)
+{
+    if (!BulletReference || !BulletReference->_IsActive) { return; }
+
+    for (s16 enemyIndex = 0; enemyIndex < EnemyCount; enemyIndex++)
+    {
+        Character* enemyReference = ListOfEnemies[enemyIndex];
+
+        if (!enemyReference) // || !enemyReference->_IsActive
+        {
+            continue;
+        }
+
+        fix16 distanceToX = BulletReference->_Node._Position._X - enemyReference->_Node._Position._X;
+        fix16 distanceToY = BulletReference->_Node._Position._Y - enemyReference->_Node._Position._Y;
+
+        fix16 distSquared = F16_mul(distanceToX, distanceToX) + F16_mul(distanceToY, distanceToY);
+
+        if (distSquared <= F16_mul(BULLET_HIT_RADIUS, BULLET_HIT_RADIUS))
+        {
+            DeactivateBullet(BulletReference);
+            ApplyCharacterDamage(enemyReference, BulletReference->_Attribute._Damage);
+            return;
+        }
+    }
+}
+
 fix16 GetBulletSpeed(Bullet* BulletReference)
 {
     if (!BulletReference) { return FIX16(0); };

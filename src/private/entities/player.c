@@ -3,24 +3,21 @@
 s16 BulletCount = 0;
 Bullet* Bullets[MAX_BULLETS];
 
+s16 ShootingCooldown = 0;
+s16 ChooseTargetCooldown = 0;
+
 s16 OldButtons[NUMBER_OF_JOYPADS];
 s16 CurrentButtons[NUMBER_OF_JOYPADS];
 
-const fix16 DIRECTION_X_TABLE[8] = {
-    FIX16(1.0),  FIX16(0.707), FIX16(0.0),   FIX16(-0.707),
-    FIX16(-1.0), FIX16(-0.707), FIX16(0.0),  FIX16(0.707)
-};
-
-const fix16 DIRECTION_Y_TABLE[8] = {
-    FIX16(0.0),  FIX16(-0.707), FIX16(-1.0), FIX16(-0.707),
-    FIX16(0.0),  FIX16(0.707),  FIX16(1.0),  FIX16(0.707)
-};
+const fix16 DIRECTION_X_TABLE[8] = { FIX16(1.0),  FIX16(0.707), FIX16(0.0),   FIX16(-0.707), FIX16(-1.0), FIX16(-0.707), FIX16(0.0),  FIX16(0.707) };
+const fix16 DIRECTION_Y_TABLE[8] = { FIX16(0.0),  FIX16(-0.707), FIX16(-1.0), FIX16(-0.707), FIX16(0.0),  FIX16(0.707),  FIX16(1.0),  FIX16(0.707) };
 
 s16 PlayerInit(s16 VRAMIndex, Character* PlayerReference)
 {
     if (!PlayerReference) { return VRAMIndex; };
     
     VRAMIndex += CharacterInit(PlayerReference, &SoldierSprite, MakePosition(FIX16((SCREEN_W / 2 ) - 16), FIX16((SCREEN_H / 2 ) - 16)), MakeAttribute(FIX16(INIT_PLAYER_SPEED), FIX16(INIT_PLAYER_HEALTH), FIX16(INIT_PLAYER_DAMAGE)), PAL_PLAYER, VRAMIndex);
+    ActivateCharacter(PlayerReference);
 
     while (MAX_BULLETS > BulletCount)
     {
@@ -71,8 +68,9 @@ void UpdatePlayerBullets(Character* PlayerReference)
 
 void UpdatePlayerTarget(Character* PlayerReference, Character* ListOfEnemies[], const s16 EnemyCount)
 {
-    if (!PlayerReference) { return; };
-    
+    if (!PlayerReference) { return; }
+    else if (ChooseTargetCooldown > 0) { ChooseTargetCooldown--; return; };
+
     const Character* targetReference = FindNearbyTarget(PlayerReference, ListOfEnemies, EnemyCount);
     
     if (!targetReference)
@@ -81,16 +79,18 @@ void UpdatePlayerTarget(Character* PlayerReference, Character* ListOfEnemies[], 
     }
     
     s16 directionIndex = GetDirectionIndex(F16_toInt(targetReference->_Node._Position._X - PlayerReference->_Node._Position._X), F16_toInt(targetReference->_Node._Position._Y - PlayerReference->_Node._Position._Y));
-
+    ChooseTargetCooldown = CHANGE_TARGET_COOLDOWN;
+    
     PlayerReference->_Direction._X = DIRECTION_X_TABLE[directionIndex];
     PlayerReference->_Direction._Y = DIRECTION_Y_TABLE[directionIndex];
-
+    
     SPR_setAnim(PlayerReference->_Node._Sprite, directionIndex);
 }
 
 void UpdatePlayerShooting(Character* PlayerReference)
 {
-    if (!PlayerReference || !PlayerReference->_Input._IsFiring) { return; }
+    if (!PlayerReference) { return; }
+    else if (ShootingCooldown > 0) { ShootingCooldown--; return; }
     else if (PlayerReference->_Direction._X == 0 && PlayerReference->_Direction._Y == 0) { return; };
     
     for (s16 bulletIndex = 0; bulletIndex < MAX_BULLETS; bulletIndex++)
@@ -101,6 +101,7 @@ void UpdatePlayerShooting(Character* PlayerReference)
         }
         
         ActivateBullet(Bullets[bulletIndex], PlayerReference->_Node._Position, PlayerReference->_Direction);
+        ShootingCooldown = SHOT_COOLDOWN;
         return;
     }
 }
@@ -122,16 +123,11 @@ void UpdatePlayerInputs(Character* PlayerReference)
 
     if (IsKeyDown(JOY_1, BUTTON_UP)) { PlayerReference->_Input._Y = -1; }
     else if (IsKeyDown(JOY_1, BUTTON_DOWN)) { PlayerReference->_Input._Y = 1; }
-
-    if (IsKeyPressed(JOY_1, BUTTON_B)) { PlayerReference->_Input._IsFiring = TRUE; }
 }
 
 Character* FindNearbyTarget(Character* PlayerReference, Character* ListOfEnemies[], const s16 EnemyCount)
 {
-    if (EnemyCount == 0)
-    {
-        return NULL;
-    }
+    if (EnemyCount == 0) { return NULL; }
 
     Character* closestEnemy = NULL;
     fix16 closestDist = FIX16(9999);
@@ -140,7 +136,7 @@ Character* FindNearbyTarget(Character* PlayerReference, Character* ListOfEnemies
     {
         Character* enemyReference = ListOfEnemies[enemyIndex];
 
-        if (!enemyReference)
+        if (!enemyReference) // || !enemyReference->_IsActive
         {
             continue;
         }

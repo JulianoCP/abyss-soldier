@@ -8,7 +8,7 @@
 #ifndef _WAVE_H_
 #define _WAVE_H_
 
-#define MAX_ENEMIES 1
+#define MAX_ENEMIES 6
 
 extern s16 EnemyCount;
 extern Character* Enemies[MAX_ENEMIES];

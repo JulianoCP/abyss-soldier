@@ -16,12 +16,18 @@
 #define NUM_DIRECTIONS 8
 #define DIRECTION_TOLERANCE 2
 
+#define SHOT_COOLDOWN 120
+#define CHANGE_TARGET_COOLDOWN 240
+
 #define MAX_BULLETS 8
 #define BULLET_SPEED 0.5
 #define BULLET_HEALTH 0
 
 extern s16 BulletCount;
 extern Bullet* Bullets[MAX_BULLETS];
+
+extern s16 ShootingCooldown;
+extern s16 ChooseTargetCooldown;
 
 extern s16 OldButtons[NUMBER_OF_JOYPADS];
 extern s16 CurrentButtons[NUMBER_OF_JOYPADS];

@@ -14,6 +14,8 @@ typedef struct
     Attribute _Attribute;
     Input _Input;
     Direction _Direction;
+    bool _IsActive;
+    s16 _RespawnTimer;
     
 } Character;
 
@@ -22,7 +24,11 @@ s16 CharacterInit(Character* NodeReference, const SpriteDefinition* SpriteValue,
 Input MakeInput(const fix16 X, const fix16 Y, const bool IsFiring);
 fix16 GetCharacterSpeed(Character* CharacterReference);
 
+void DeactivateCharacter(Character* CharacterReference);
+void ActivateCharacter(Character* CharacterReference);
+
 void UpdateCharacterPosition(Character* CharacterReference);
+void ApplyCharacterDamage(Character* CharacterReference, const fix16 DamageValue);
 void ClearCharacterInputs(Character* CharacterReference);
 
 #endif

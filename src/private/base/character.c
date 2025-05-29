@@ -21,6 +21,13 @@ void ClearCharacterInputs(Character* CharacterReference)
     CharacterReference->_Input._IsFiring = FALSE;
 }
 
+void ApplyCharacterDamage(Character* CharacterReference, const fix16 DamageValue)
+{
+    if (!CharacterReference) { return; };
+
+    CharacterReference->_Attribute._Health -= DamageValue;
+}
+
 fix16 GetCharacterSpeed(Character* CharacterReference)
 {
     if (!CharacterReference) { return FIX16(0); };
@@ -32,7 +39,7 @@ fix16 GetCharacterSpeed(Character* CharacterReference)
 
 void UpdateCharacterPosition(Character* CharacterReference)
 {
-    if (!CharacterReference) { return; }
+    if (!CharacterReference || !CharacterReference->_IsActive) { return; }
     else if (CharacterReference->_Input._X == FIX16(0) && CharacterReference->_Input._Y == FIX16(0)) { return; };
     
     const fix16 characterSpeed = GetCharacterSpeed(CharacterReference);
@@ -56,4 +63,18 @@ Input MakeInput(const fix16 X, const fix16 Y, const bool IsFiring)
 {
     Input newInput = { ._X = X, ._Y = Y, ._IsFiring = IsFiring };
     return newInput;
+}
+
+void DeactivateCharacter(Character* CharacterReference)
+{
+    if (!CharacterReference) { return; };
+
+    CharacterReference->_IsActive = false;
+}
+
+void ActivateCharacter(Character* CharacterReference)
+{
+    if (!CharacterReference) { return; };
+
+    CharacterReference->_IsActive = true;
 }

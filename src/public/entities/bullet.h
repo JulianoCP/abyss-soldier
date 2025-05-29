@@ -3,7 +3,9 @@
 #include <maths.h>
 #include <tools.h>
 
-#include "public/base/node.h"
+#include "public/base/character.h"
+
+#define BULLET_HIT_RADIUS FIX16(12)
 
 #ifndef _BULLET_H_
 #define _BULLET_H_
