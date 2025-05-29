@@ -10,10 +10,18 @@
 
 typedef struct 
 {
-	u16 _H;
-	u16 _W;
+	s16 _H;
+	s16 _W;
 
 } Dimension;
+
+typedef struct 
+{
+    fix16 _X;
+    fix16 _Y;
+    bool _IsFiring;
+
+} Input;
 
 typedef struct 
 {
@@ -39,20 +47,13 @@ typedef struct
 
 typedef struct 
 {
-    fix16 _X;
-    fix16 _Y;
-
-} Velocity;
-
-typedef struct 
-{
 	Sprite* _Sprite;
     Position _Position;
     Dimension _Dimension;
 
 } Node;
 
-u16 NodeInit(Node* NodeReference, const SpriteDefinition* SpriteValue, const Position PositionValue, const u8 PaletteValue, u16 VRAMIndex);
+s16 NodeInit(Node* NodeReference, const SpriteDefinition* SpriteValue, const Position PositionValue, const s16 PaletteValue, s16 VRAMIndex);
 
 Position MakePosition(const fix16 X, const fix16 Y);
 Direction MakeDirection(const fix16 X, const fix16 Y);

@@ -1,6 +1,6 @@
 #include "public/entities/enemy.h"
 
-u16 EnemyInit(u16 VRAMIndex, Character* EnemyReference)
+s16 EnemyInit(s16 VRAMIndex, Character* EnemyReference)
 {
     if (!EnemyReference) { return VRAMIndex; };
 
@@ -22,12 +22,12 @@ void UpdateEnemyInputs(Character* EnemyReference, const Character* PlayerReferen
     
     ClearCharacterInputs(EnemyReference);
 
-    // EnemyReference->_Direction._X = PlayerReference->_Node._Position._X - EnemyReference->_Node._Position._X;
-    // EnemyReference->_Direction._Y = PlayerReference->_Node._Position._Y - EnemyReference->_Node._Position._Y;
+    EnemyReference->_Direction._X = PlayerReference->_Node._Position._X - EnemyReference->_Node._Position._X;
+    EnemyReference->_Direction._Y = PlayerReference->_Node._Position._Y - EnemyReference->_Node._Position._Y;
 
-    // if (EnemyReference->_Direction._X < -1) { EnemyReference->_Input._X = -1; }
-    // else if (EnemyReference->_Direction._X > 1) { EnemyReference->_Input._X = 1; };
+    if (EnemyReference->_Direction._X < -1) { EnemyReference->_Input._X = -1; }
+    else if (EnemyReference->_Direction._X > 1) { EnemyReference->_Input._X = 1; };
 
-    // if (EnemyReference->_Direction._Y < -1) { EnemyReference->_Input._Y = -1; }
-    // else if (EnemyReference->_Direction._Y > 1) { EnemyReference->_Input._Y = 1; };
+    if (EnemyReference->_Direction._Y < -1) { EnemyReference->_Input._Y = -1; }
+    else if (EnemyReference->_Direction._Y > 1) { EnemyReference->_Input._Y = 1; };
 }

@@ -1,9 +1,9 @@
 #include "public/managers/wave.h"
 
-u16 EnemyCount = 0;
+s16 EnemyCount = 0;
 Character* Enemies[MAX_ENEMIES];
 
-u16 WaveManagerInit(u16 VRAMIndex)
+s16 WaveManagerInit(s16 VRAMIndex)
 {
     if (EnemyCount >= MAX_ENEMIES || MAX_ENEMIES <= 0)
     {
@@ -19,7 +19,7 @@ u16 WaveManagerInit(u16 VRAMIndex)
     return VRAMIndex;
 }
 
-u16 AddEnemy(u16 VRAMIndex)
+s16 AddEnemy(s16 VRAMIndex)
 {
     Character* newEnemy = malloc(sizeof(Character));
 
@@ -34,7 +34,7 @@ u16 AddEnemy(u16 VRAMIndex)
 
 void UpdateWave(Character* PlayerReference)
 {
-     for (u16 enemyIndex = 0; enemyIndex < EnemyCount; enemyIndex++)
+     for (s16 enemyIndex = 0; enemyIndex < EnemyCount; enemyIndex++)
     {
         Character* enemyReference = Enemies[enemyIndex];
 

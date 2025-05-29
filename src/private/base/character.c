@@ -1,6 +1,6 @@
 #include "public/base/character.h"
 
-u16 CharacterInit(Character* CharacterReference, const SpriteDefinition* SpriteValue, const Position PositionValue, const Attribute AttributeValue, const u16 PaletteValue, u16 VRAMIndex)
+s16 CharacterInit(Character* CharacterReference, const SpriteDefinition* SpriteValue, const Position PositionValue, const Attribute AttributeValue, const s16 PaletteValue, s16 VRAMIndex)
 {
     if (!CharacterReference) { return VRAMIndex; };
 
@@ -19,36 +19,26 @@ void ClearCharacterInputs(Character* CharacterReference)
     CharacterReference->_Input._X = FIX16(0);
     CharacterReference->_Input._Y = FIX16(0);
     CharacterReference->_Input._IsFiring = FALSE;
-
-    CharacterReference->_Velocity._X = FIX16(0);
-    CharacterReference->_Velocity._Y = FIX16(0);
 }
 
-fix16 GetCharacterSpeed(Character* CharacterReference, const bool IsDiagonal)
+fix16 GetCharacterSpeed(Character* CharacterReference)
 {
     if (!CharacterReference) { return FIX16(0); };
+
+    const bool IsDiagonal = (CharacterReference->_Input._X != FIX16(0) && CharacterReference->_Input._Y != FIX16(0));
 
     return IsDiagonal ? F16_mul(DIAGONAL_FIX, CharacterReference->_Attribute._Speed) : CharacterReference->_Attribute._Speed;
 }
 
-void UpdateCharacterVelocity(Character* CharacterReference)
-{
-    if (!CharacterReference) { return; };
-
-    const fix16 characterSpeed = GetCharacterSpeed(CharacterReference, (CharacterReference->_Input._X != FIX16(0) && CharacterReference->_Input._Y != FIX16(0)));
-
-    CharacterReference->_Velocity._X = F16_mul(characterSpeed, CharacterReference->_Input._X);
-    CharacterReference->_Velocity._Y = F16_mul(characterSpeed, CharacterReference->_Input._Y);
-}
-
 void UpdateCharacterPosition(Character* CharacterReference)
 {
-    if (!CharacterReference) { return; };
+    if (!CharacterReference) { return; }
+    else if (CharacterReference->_Input._X == FIX16(0) && CharacterReference->_Input._Y == FIX16(0)) { return; };
     
-    UpdateCharacterVelocity(CharacterReference);
+    const fix16 characterSpeed = GetCharacterSpeed(CharacterReference);
 
-    fix16 newX = CharacterReference->_Node._Position._X + CharacterReference->_Velocity._X;
-    fix16 newY = CharacterReference->_Node._Position._Y + CharacterReference->_Velocity._Y;
+    fix16 newX = CharacterReference->_Node._Position._X + F16_mul(characterSpeed, CharacterReference->_Input._X);
+    fix16 newY = CharacterReference->_Node._Position._Y + F16_mul(characterSpeed, CharacterReference->_Input._Y);
 
     if (newX < FIX16(WALL_BLOCK_SIZE)) { newX = FIX16(WALL_BLOCK_SIZE); }
     else if (newX > FIX16(SCREEN_W - (WALL_BLOCK_SIZE + CHARACTER_DIMENSION))) { newX = FIX16(SCREEN_W - (WALL_BLOCK_SIZE + CHARACTER_DIMENSION)); };

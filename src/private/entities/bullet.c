@@ -1,6 +1,6 @@
 #include "public/entities/bullet.h"
 
-u16 BulletInit(Bullet* BulletReference, const SpriteDefinition* SpriteValue, const Position PositionValue, const Attribute AttributeValue, const u16 PaletteValue, u16 VRAMIndex)
+s16 BulletInit(Bullet* BulletReference, const SpriteDefinition* SpriteValue, const Position PositionValue, const Attribute AttributeValue, const s16 PaletteValue, s16 VRAMIndex)
 {
     if (!BulletReference) { return VRAMIndex; };
 
@@ -8,7 +8,7 @@ u16 BulletInit(Bullet* BulletReference, const SpriteDefinition* SpriteValue, con
     BulletReference->_Attribute._Speed = AttributeValue._Speed;
     BulletReference->_Attribute._Health = AttributeValue._Health;
 
-    u16 vramResult = NodeInit(&BulletReference->_Node, SpriteValue, PositionValue, PaletteValue, VRAMIndex);
+    s16 vramResult = NodeInit(&BulletReference->_Node, SpriteValue, PositionValue, PaletteValue, VRAMIndex);
     SPR_setVisibility(BulletReference->_Node._Sprite, HIDDEN);
 
     return vramResult;
@@ -19,13 +19,16 @@ void DeactivateBullet(Bullet* BulletReference)
     if (!BulletReference) { return; };
 
     BulletReference->_IsActive = FALSE;
+    BulletReference->_Direction._X = FIX16(0);
+    BulletReference->_Direction._Y = FIX16(0);
+
     SPR_setVisibility(BulletReference->_Node._Sprite, HIDDEN);
 }
 
 void ActivateBullet(Bullet* BulletReference, const Position PositionValue, const Direction DirectionValue)
 {
     if (!BulletReference) { return; };
-
+    
     BulletReference->_IsActive = TRUE;
 
     BulletReference->_Node._Position._X = PositionValue._X;
@@ -42,33 +45,25 @@ void UpdateBullet(Bullet* BulletReference)
 {
     if (!BulletReference || !BulletReference->_IsActive) { return; }
     
-    UpdateBulletVelocity(BulletReference);
     UpdateBulletPosition(BulletReference);
 }
 
-fix16 GetBulletSpeed(Bullet* BulletReference, const bool IsDiagonal)
+fix16 GetBulletSpeed(Bullet* BulletReference)
 {
     if (!BulletReference) { return FIX16(0); };
+
+    const bool IsDiagonal = (BulletReference->_Direction._X != FIX16(0) && BulletReference->_Direction._Y != FIX16(0));
 
     return IsDiagonal ? F16_mul(DIAGONAL_FIX, BulletReference->_Attribute._Speed) : BulletReference->_Attribute._Speed;
 }
 
-void UpdateBulletVelocity(Bullet* BulletReference)
-{
-    if (!BulletReference) { return; };
-
-    const fix16 bulletSpeed = GetBulletSpeed(BulletReference, (BulletReference->_Direction._X != FIX16(0) && BulletReference->_Direction._Y != FIX16(0)));
-
-    BulletReference->_Velocity._X = F16_mul(bulletSpeed, BulletReference->_Direction._X);
-    BulletReference->_Velocity._Y = F16_mul(bulletSpeed, BulletReference->_Direction._Y);
-}
-
 void UpdateBulletPosition(Bullet* BulletReference)
 {
-    if (!BulletReference) { return; };
+    if (!BulletReference || !BulletReference->_IsActive) { return; }
+    else if (BulletReference->_Direction._X == FIX16(0) && BulletReference->_Direction._Y == FIX16(0)) { return; };
 
-    BulletReference->_Node._Position._X = BulletReference->_Node._Position._X + BulletReference->_Velocity._X;
-    BulletReference->_Node._Position._Y = BulletReference->_Node._Position._Y + BulletReference->_Velocity._Y;
+    BulletReference->_Node._Position._X = BulletReference->_Node._Position._X + F16_mul(BulletReference->_Direction._X, BulletReference->_Attribute._Speed);
+    BulletReference->_Node._Position._Y = BulletReference->_Node._Position._Y + F16_mul(BulletReference->_Direction._Y, BulletReference->_Attribute._Speed);
 
     SPR_setPosition(BulletReference->_Node._Sprite, F16_toInt(BulletReference->_Node._Position._X), F16_toInt(BulletReference->_Node._Position._Y));
 

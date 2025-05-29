@@ -10,29 +10,19 @@
 
 typedef struct 
 {
-    fix16 _X;
-    fix16 _Y;
-    bool _IsFiring;
-
-} Input;
-
-typedef struct 
-{
     Node _Node;
     Attribute _Attribute;
     Input _Input;
-    Velocity _Velocity;
     Direction _Direction;
     
 } Character;
 
-u16 CharacterInit(Character* NodeReference, const SpriteDefinition* SpriteValue, const Position PositionValue, const Attribute AttributeValue, const u16 PaletteValue, u16 VRAMIndex);
+s16 CharacterInit(Character* NodeReference, const SpriteDefinition* SpriteValue, const Position PositionValue, const Attribute AttributeValue, const s16 PaletteValue, s16 VRAMIndex);
 
 Input MakeInput(const fix16 X, const fix16 Y, const bool IsFiring);
-fix16 GetCharacterSpeed(Character* CharacterReference, const bool IsDiagonal);
+fix16 GetCharacterSpeed(Character* CharacterReference);
 
 void UpdateCharacterPosition(Character* CharacterReference);
 void ClearCharacterInputs(Character* CharacterReference);
-void UpdateCharacterVelocity(Character* CharacterReference);
 
 #endif

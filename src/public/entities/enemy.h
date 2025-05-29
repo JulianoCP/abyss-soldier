@@ -11,7 +11,7 @@
 #define INIT_ENEMY_SPEED 5
 #define INIT_ENEMY_HEALTH 20
 
-u16 EnemyInit(u16 VRAMIndex, Character* EnemyReference);
+s16 EnemyInit(s16 VRAMIndex, Character* EnemyReference);
 
 void UpdateEnemy(Character* EnemyReference, const Character* PlayerReference);
 void UpdateEnemyInputs(Character* EnemyReference, const Character* PlayerReference);

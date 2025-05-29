@@ -1,6 +1,6 @@
 #include "public/base/node.h"
 
-u16 NodeInit(Node* NodeReference, const SpriteDefinition* SpriteValue, const Position PositionValue, const u8 PaletteValue, u16 VRAMIndex)
+s16 NodeInit(Node* NodeReference, const SpriteDefinition* SpriteValue, const Position PositionValue, const s16 PaletteValue, s16 VRAMIndex)
 {
     if (!NodeReference) { return VRAMIndex; };
 
@@ -22,11 +22,11 @@ Position GetSafeRandomScreenPosition()
 {
     Position positionResult;
 
-    u16 minX = WALL_BLOCK_SIZE;
-    u16 maxX = SCREEN_W - (WALL_BLOCK_SIZE + CHARACTER_DIMENSION);
+    s16 minX = WALL_BLOCK_SIZE;
+    s16 maxX = SCREEN_W - (WALL_BLOCK_SIZE + CHARACTER_DIMENSION);
 
-    u16 minY = WALL_BLOCK_SIZE;
-    u16 maxY = SCREEN_H - (WALL_BLOCK_SIZE + CHARACTER_DIMENSION);
+    s16 minY = WALL_BLOCK_SIZE;
+    s16 maxY = SCREEN_H - (WALL_BLOCK_SIZE + CHARACTER_DIMENSION);
 
     positionResult._X = FIX16(minX + (random() % (maxX - minX)));
     positionResult._Y = FIX16(minY + (random() % (maxY - minY)));

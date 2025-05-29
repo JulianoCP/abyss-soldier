@@ -11,7 +11,7 @@
 #ifndef _MAIN_H_
 #define _MAIN_H_
 
-extern u16 VRAMTileIndex;
+extern s16 VRAMTileIndex;
 
 int main(bool HardReset);
 void GameInit();

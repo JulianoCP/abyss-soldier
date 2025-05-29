@@ -10,11 +10,11 @@
 
 #define MAX_ENEMIES 1
 
-extern u16 EnemyCount;
+extern s16 EnemyCount;
 extern Character* Enemies[MAX_ENEMIES];
 
-u16 WaveManagerInit(u16 VRAMIndex);
-u16 AddEnemy(u16 VRAMIndex);
+s16 WaveManagerInit(s16 VRAMIndex);
+s16 AddEnemy(s16 VRAMIndex);
 void UpdateWave(Character* PlayerReference);
 
 #endif

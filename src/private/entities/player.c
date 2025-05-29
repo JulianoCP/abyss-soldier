@@ -1,12 +1,22 @@
 #include "public/entities/player.h"
 
-u16 BulletCount = 0;
+s16 BulletCount = 0;
 Bullet* Bullets[MAX_BULLETS];
 
-u8 OldButtons[NUMBER_OF_JOYPADS];
-u8 CurrentButtons[NUMBER_OF_JOYPADS];
+s16 OldButtons[NUMBER_OF_JOYPADS];
+s16 CurrentButtons[NUMBER_OF_JOYPADS];
 
-u16 PlayerInit(u16 VRAMIndex, Character* PlayerReference)
+const fix16 DIRECTION_X_TABLE[8] = {
+    FIX16(1.0),  FIX16(0.707), FIX16(0.0),   FIX16(-0.707),
+    FIX16(-1.0), FIX16(-0.707), FIX16(0.0),  FIX16(0.707)
+};
+
+const fix16 DIRECTION_Y_TABLE[8] = {
+    FIX16(0.0),  FIX16(-0.707), FIX16(-1.0), FIX16(-0.707),
+    FIX16(0.0),  FIX16(0.707),  FIX16(1.0),  FIX16(0.707)
+};
+
+s16 PlayerInit(s16 VRAMIndex, Character* PlayerReference)
 {
     if (!PlayerReference) { return VRAMIndex; };
     
@@ -21,7 +31,7 @@ u16 PlayerInit(u16 VRAMIndex, Character* PlayerReference)
     return VRAMIndex;
 }
 
-u16 AddPlayerBullet(u16 VRAMIndex, Character* PlayerReference)
+s16 AddPlayerBullet(s16 VRAMIndex, Character* PlayerReference)
 {
     if (!PlayerReference) { return VRAMIndex; };
 
@@ -36,7 +46,7 @@ u16 AddPlayerBullet(u16 VRAMIndex, Character* PlayerReference)
     return BulletInit(newBullet, &BulletSprite, PlayerReference->_Node._Position, MakeAttribute(FIX16(BULLET_SPEED), FIX16(BULLET_HEALTH), FIX16(INIT_PLAYER_DAMAGE)), PAL_BULLET, VRAMIndex);
 }
 
-void UpdatePlayer(Character* PlayerReference, Character* ListOfEnemies[], const u16 EnemyCount)
+void UpdatePlayer(Character* PlayerReference, Character* ListOfEnemies[], const s16 EnemyCount)
 {
     if (!PlayerReference) { return; };
 
@@ -51,35 +61,39 @@ void UpdatePlayerBullets(Character* PlayerReference)
 {
     if (!PlayerReference) { return; };
 
-    for (u16 bulletIndex = 0; bulletIndex < MAX_BULLETS; bulletIndex++)
+    for (s16 bulletIndex = 0; bulletIndex < MAX_BULLETS; bulletIndex++)
     {
         UpdateBullet(Bullets[bulletIndex]);
     }
+
+    UpdatePlayerShooting(PlayerReference);
 }
 
-void UpdatePlayerTarget(Character* PlayerReference, Character* ListOfEnemies[], const u16 EnemyCount)
+void UpdatePlayerTarget(Character* PlayerReference, Character* ListOfEnemies[], const s16 EnemyCount)
 {
     if (!PlayerReference) { return; };
-
+    
     const Character* targetReference = FindNearbyTarget(PlayerReference, ListOfEnemies, EnemyCount);
-
+    
     if (!targetReference)
     {
-       return;
+        return;
     }
+    
+    s16 directionIndex = GetDirectionIndex(F16_toInt(targetReference->_Node._Position._X - PlayerReference->_Node._Position._X), F16_toInt(targetReference->_Node._Position._Y - PlayerReference->_Node._Position._Y));
 
-    PlayerReference->_Direction._X = targetReference->_Node._Position._X - PlayerReference->_Node._Position._X;
-    PlayerReference->_Direction._Y = targetReference->_Node._Position._Y - PlayerReference->_Node._Position._Y;
+    PlayerReference->_Direction._X = DIRECTION_X_TABLE[directionIndex];
+    PlayerReference->_Direction._Y = DIRECTION_Y_TABLE[directionIndex];
 
-    SPR_setAnim(PlayerReference->_Node._Sprite, GetDirectionIndex(PlayerReference->_Direction._X, PlayerReference->_Direction._Y));
-    UpdatePlayerShooting(PlayerReference, targetReference);
+    SPR_setAnim(PlayerReference->_Node._Sprite, directionIndex);
 }
 
-void UpdatePlayerShooting(const Character* PlayerReference, const Character* TargetReference)
+void UpdatePlayerShooting(Character* PlayerReference)
 {
-    if (!PlayerReference || !PlayerReference->_Input._IsFiring) { return; };
-
-    for (u16 bulletIndex = 0; bulletIndex < MAX_BULLETS; bulletIndex++)
+    if (!PlayerReference || !PlayerReference->_Input._IsFiring) { return; }
+    else if (PlayerReference->_Direction._X == 0 && PlayerReference->_Direction._Y == 0) { return; };
+    
+    for (s16 bulletIndex = 0; bulletIndex < MAX_BULLETS; bulletIndex++)
     {
         if (!Bullets[bulletIndex] || Bullets[bulletIndex]->_IsActive)
         {
@@ -104,13 +118,15 @@ void UpdatePlayerInputs(Character* PlayerReference)
 	}
     
     if (IsKeyDown(JOY_1, BUTTON_LEFT)) { PlayerReference->_Input._X = -1; }
-    if (IsKeyDown(JOY_1, BUTTON_RIGHT)) { PlayerReference->_Input._X = 1; }
+    else if (IsKeyDown(JOY_1, BUTTON_RIGHT)) { PlayerReference->_Input._X = 1; }
+
     if (IsKeyDown(JOY_1, BUTTON_UP)) { PlayerReference->_Input._Y = -1; }
-    if (IsKeyDown(JOY_1, BUTTON_DOWN)) { PlayerReference->_Input._Y = 1; }
-    if (IsKeyDown(JOY_1, BUTTON_B)) { PlayerReference->_Input._IsFiring = TRUE; }
+    else if (IsKeyDown(JOY_1, BUTTON_DOWN)) { PlayerReference->_Input._Y = 1; }
+
+    if (IsKeyPressed(JOY_1, BUTTON_B)) { PlayerReference->_Input._IsFiring = TRUE; }
 }
 
-Character* FindNearbyTarget(Character* PlayerReference, Character* ListOfEnemies[], const u16 EnemyCount)
+Character* FindNearbyTarget(Character* PlayerReference, Character* ListOfEnemies[], const s16 EnemyCount)
 {
     if (EnemyCount == 0)
     {
@@ -118,9 +134,9 @@ Character* FindNearbyTarget(Character* PlayerReference, Character* ListOfEnemies
     }
 
     Character* closestEnemy = NULL;
-    fix16 closestDist = FIX16(999999);
+    fix16 closestDist = FIX16(9999);
 
-    for (u16 enemyIndex = 0; enemyIndex < EnemyCount; enemyIndex++)
+    for (s16 enemyIndex = 0; enemyIndex < EnemyCount; enemyIndex++)
     {
         Character* enemyReference = ListOfEnemies[enemyIndex];
 
@@ -146,7 +162,7 @@ fix16 GetDistanceSquared(Character* PlayerReference, const Position TargetPositi
     const fix16 distanceToX = PlayerReference->_Node._Position._X - TargetPosition._X;
     const fix16 distanceToY = PlayerReference->_Node._Position._Y - TargetPosition._Y;
 
-    return FIX16(F16_mul(distanceToX, distanceToX) + F16_mul(distanceToY, distanceToY));
+    return F16_mul(distanceToX, distanceToX) + F16_mul(distanceToY, distanceToY);
 }
 
 s16 GetDirectionIndex(const s16 X, const s16 Y)
@@ -168,22 +184,22 @@ s16 GetDirectionIndex(const s16 X, const s16 Y)
     return 0;
 }
 
-bool IsBitset(const u8 Value, const u8 Bit) 
+bool IsBitset(const s16 Value, const s16 Bit) 
 {
     return ((Value & Bit) == Bit);
 }
 
-bool IsKeyDown(const u8 JoyId, const u8 Key) 
+bool IsKeyDown(const s16 JoyId, const s16 Key) 
 {
     return IsBitset(CurrentButtons[JoyId], Key);
 }
 
-bool IsKeyPressed(const u8 JoyId, const u8 Key) 
+bool IsKeyPressed(const s16 JoyId, const s16 Key) 
 {
     return IsBitset(CurrentButtons[JoyId], Key) && !IsBitset(OldButtons[JoyId], Key);
 }
 
-bool IsKeyReleased(const u8 JoyId, const u8 Key) 
+bool IsKeyReleased(const s16 JoyId, const s16 Key) 
 {
     return !IsBitset(CurrentButtons[JoyId], Key) && IsBitset(OldButtons[JoyId], Key);
 }

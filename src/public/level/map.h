@@ -6,6 +6,6 @@
 #ifndef _BACKGROUND_H_
 #define _BACKGROUND_H_
 
-u16 MapInit(u16 VRAMIndex);
+s16 MapInit(s16 VRAMIndex);
 
 #endif

@@ -13,16 +13,13 @@ typedef struct
     Node _Node;
     Attribute _Attribute;
     Direction _Direction;
-    Velocity _Velocity;
-    bool _IsActive; 
+    bool _IsActive;
     
 } Bullet;
 
-u16 BulletInit(Bullet* BulletReference, const SpriteDefinition* SpriteValue, const Position PositionValue, const Attribute AttributeValue, const u16 PaletteValue, u16 VRAMIndex);
-fix16 GetBulletSpeed(Bullet* BulletReference, const bool IsDiagonal);
+s16 BulletInit(Bullet* BulletReference, const SpriteDefinition* SpriteValue, const Position PositionValue, const Attribute AttributeValue, const s16 PaletteValue, s16 VRAMIndex);
 
 void UpdateBullet(Bullet* BulletReference);
-void UpdateBulletVelocity(Bullet* BulletReference);
 void UpdateBulletPosition(Bullet* BulletReference);
 
 void DeactivateBullet(Bullet* BulletReference);

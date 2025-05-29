@@ -1,6 +1,6 @@
 #include "public/main.h"
 
-u16 VRAMTileIndex = TILE_USER_INDEX;
+s16 VRAMTileIndex = TILE_USER_INDEX;
 
 int main(bool HardReset)
 {

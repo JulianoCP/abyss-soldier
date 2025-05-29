@@ -8,7 +8,7 @@
 
 extern Character Player;
 
-u16 ControllerInit(u16 VRAMIndex);
-void UpdateController(Character* ListOfEnemies[], u16 EnemyCount);
+s16 ControllerInit(s16 VRAMIndex);
+void UpdateController(Character* ListOfEnemies[], s16 EnemyCount);
 
 #endif
