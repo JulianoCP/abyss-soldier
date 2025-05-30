@@ -50,17 +50,17 @@ void UpdatePlayer(Character* PlayerReference, Character* ListOfEnemies[], const 
     UpdatePlayerInputs(PlayerReference);
     UpdateCharacterPosition(PlayerReference);
     
-    UpdatePlayerBullets(PlayerReference);
+    UpdatePlayerBullets(PlayerReference, ListOfEnemies, EnemyCount);
     UpdatePlayerTarget(PlayerReference, ListOfEnemies, EnemyCount);
 }
 
-void UpdatePlayerBullets(Character* PlayerReference)
+void UpdatePlayerBullets(Character* PlayerReference, Character* ListOfEnemies[], const s16 EnemyCount)
 {
     if (!PlayerReference) { return; };
 
     for (s16 bulletIndex = 0; bulletIndex < MAX_BULLETS; bulletIndex++)
     {
-        UpdateBullet(Bullets[bulletIndex]);
+        UpdateBullet(Bullets[bulletIndex], ListOfEnemies, EnemyCount);
     }
 
     UpdatePlayerShooting(PlayerReference);
@@ -136,7 +136,7 @@ Character* FindNearbyTarget(Character* PlayerReference, Character* ListOfEnemies
     {
         Character* enemyReference = ListOfEnemies[enemyIndex];
 
-        if (!enemyReference) // || !enemyReference->_IsActive
+        if (!enemyReference || !enemyReference->_IsActive)
         {
             continue;
         }

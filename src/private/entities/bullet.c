@@ -7,6 +7,7 @@ s16 BulletInit(Bullet* BulletReference, const SpriteDefinition* SpriteValue, con
     BulletReference->_IsActive = FALSE;
     BulletReference->_Attribute._Speed = AttributeValue._Speed;
     BulletReference->_Attribute._Health = AttributeValue._Health;
+    BulletReference->_Attribute._Damage = AttributeValue._Damage;
 
     s16 vramResult = NodeInit(&BulletReference->_Node, SpriteValue, PositionValue, PaletteValue, VRAMIndex);
     SPR_setVisibility(BulletReference->_Node._Sprite, HIDDEN);
@@ -41,11 +42,12 @@ void ActivateBullet(Bullet* BulletReference, const Position PositionValue, const
     SPR_setVisibility(BulletReference->_Node._Sprite, VISIBLE);
 }
 
-void UpdateBullet(Bullet* BulletReference)
+void UpdateBullet(Bullet* BulletReference, Character* ListOfEnemies[], const s16 EnemyCount)
 {
     if (!BulletReference || !BulletReference->_IsActive) { return; }
     
     UpdateBulletPosition(BulletReference);
+    BulletCheckHitEnemies(BulletReference, ListOfEnemies, EnemyCount);
 }
 
 void BulletCheckHitEnemies(Bullet* BulletReference, Character* ListOfEnemies[], const s16 EnemyCount)
@@ -56,17 +58,18 @@ void BulletCheckHitEnemies(Bullet* BulletReference, Character* ListOfEnemies[], 
     {
         Character* enemyReference = ListOfEnemies[enemyIndex];
 
-        if (!enemyReference) // || !enemyReference->_IsActive
+        if (!enemyReference || !enemyReference->_IsActive)
         {
             continue;
         }
 
         fix16 distanceToX = BulletReference->_Node._Position._X - enemyReference->_Node._Position._X;
         fix16 distanceToY = BulletReference->_Node._Position._Y - enemyReference->_Node._Position._Y;
-
-        fix16 distSquared = F16_mul(distanceToX, distanceToX) + F16_mul(distanceToY, distanceToY);
-
-        if (distSquared <= F16_mul(BULLET_HIT_RADIUS, BULLET_HIT_RADIUS))
+        
+        s16 resultToX = ABS(F16_toInt(distanceToX));
+        s16 resultToY = ABS(F16_toInt(distanceToY));
+        
+        if (resultToX <= BULLET_HIT_RADIUS && resultToY <= BULLET_HIT_RADIUS)
         {
             DeactivateBullet(BulletReference);
             ApplyCharacterDamage(enemyReference, BulletReference->_Attribute._Damage);

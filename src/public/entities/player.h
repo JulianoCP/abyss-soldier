@@ -11,7 +11,7 @@
 
 #define INIT_PLAYER_SPEED 10
 #define INIT_PLAYER_HEALTH 200
-#define INIT_PLAYER_DAMAGE 5
+#define INIT_PLAYER_DAMAGE 15
 
 #define NUM_DIRECTIONS 8
 #define DIRECTION_TOLERANCE 2
@@ -45,8 +45,9 @@ bool IsKeyDown(const s16 JoyId, const s16 Key);
 bool IsKeyPressed(const s16 JoyId, const s16 Key);
 
 void UpdatePlayerInputs(Character* PlayerReference);
-void UpdatePlayerBullets(Character* PlayerReference);
 void UpdatePlayerShooting(Character* PlayerReference);
+
+void UpdatePlayerBullets(Character* PlayerReference, Character* ListOfEnemies[], const s16 EnemyCount);
 void UpdatePlayer(Character* PlayerReference, Character* ListOfEnemies[], const s16 EnemyCount);
 void UpdatePlayerTarget(Character* PlayerReference, Character* ListOfEnemies[], const s16 EnemyCount);
 

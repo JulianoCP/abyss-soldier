@@ -70,6 +70,7 @@ void DeactivateCharacter(Character* CharacterReference)
     if (!CharacterReference) { return; };
 
     CharacterReference->_IsActive = false;
+    SPR_setVisibility(CharacterReference->_Node._Sprite, HIDDEN);
 }
 
 void ActivateCharacter(Character* CharacterReference)
@@ -77,4 +78,5 @@ void ActivateCharacter(Character* CharacterReference)
     if (!CharacterReference) { return; };
 
     CharacterReference->_IsActive = true;
+    SPR_setVisibility(CharacterReference->_Node._Sprite, VISIBLE);
 }
