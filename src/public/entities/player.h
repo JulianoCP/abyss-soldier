@@ -9,15 +9,18 @@
 #ifndef _PLAYER_H_
 #define _PLAYER_H_
 
-#define INIT_PLAYER_SPEED 10
+#define TEXT_COL 34
+#define TEXT_ROW 3
+
+#define INIT_PLAYER_SPEED 5
 #define INIT_PLAYER_HEALTH 200
-#define INIT_PLAYER_DAMAGE 15
+#define INIT_PLAYER_DAMAGE 20
 
 #define NUM_DIRECTIONS 8
 #define DIRECTION_TOLERANCE 2
 
-#define SHOT_COOLDOWN 120
-#define CHANGE_TARGET_COOLDOWN 240
+#define SHOT_COOLDOWN 180
+#define CHANGE_TARGET_COOLDOWN 300
 
 #define MAX_BULLETS 8
 #define BULLET_SPEED 0.5
@@ -43,6 +46,8 @@ bool IsBitset(const s16 Value, const s16 Bit);
 bool IsKeyReleased(const s16 JoyId, const s16 Key);
 bool IsKeyDown(const s16 JoyId, const s16 Key);
 bool IsKeyPressed(const s16 JoyId, const s16 Key);
+
+void UpdateHUDInfo(Character* PlayerReference);
 
 void UpdatePlayerInputs(Character* PlayerReference);
 void UpdatePlayerShooting(Character* PlayerReference);

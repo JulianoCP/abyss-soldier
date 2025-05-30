@@ -27,6 +27,9 @@
         "stdlib.h": "c",
         "maths.h": "c",
         "bullet.h": "c",
-        "wave.h": "c"
+        "wave.h": "c",
+        "controller.h": "c",
+        "tools.h": "c",
+        "game.h": "c"
     },
 }

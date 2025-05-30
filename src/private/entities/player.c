@@ -16,7 +16,9 @@ s16 PlayerInit(s16 VRAMIndex, Character* PlayerReference)
 {
     if (!PlayerReference) { return VRAMIndex; };
     
-    VRAMIndex += CharacterInit(PlayerReference, &SoldierSprite, MakePosition(FIX16((SCREEN_W / 2 ) - 16), FIX16((SCREEN_H / 2 ) - 16)), MakeAttribute(FIX16(INIT_PLAYER_SPEED), FIX16(INIT_PLAYER_HEALTH), FIX16(INIT_PLAYER_DAMAGE)), PAL_PLAYER, VRAMIndex);
+    VRAMIndex += CharacterInit(PlayerReference, &SoldierSprite, MakePosition(FIX16((SCREEN_W / 2 ) - 16), FIX16((SCREEN_H / 2 ) - 16)), MakeAttribute(FIX16(INIT_PLAYER_SPEED), FIX16(INIT_PLAYER_HEALTH), FIX16(INIT_PLAYER_DAMAGE)), PAL_ENTITIES, VRAMIndex);
+    
+    UpdateHUDInfo(PlayerReference);
     ActivateCharacter(PlayerReference);
 
     while (MAX_BULLETS > BulletCount)
@@ -40,7 +42,30 @@ s16 AddPlayerBullet(s16 VRAMIndex, Character* PlayerReference)
     }
 
     Bullets[BulletCount] = newBullet;
-    return BulletInit(newBullet, &BulletSprite, PlayerReference->_Node._Position, MakeAttribute(FIX16(BULLET_SPEED), FIX16(BULLET_HEALTH), FIX16(INIT_PLAYER_DAMAGE)), PAL_BULLET, VRAMIndex);
+    return BulletInit(newBullet, &BulletSprite, PlayerReference->_Node._Position, MakeAttribute(FIX16(BULLET_SPEED), FIX16(BULLET_HEALTH), FIX16(INIT_PLAYER_DAMAGE)), PAL_ENTITIES, VRAMIndex);
+}
+
+void UpdateHUDInfo(Character* PlayerReference)
+{
+    if (!PlayerReference) { return; };
+
+    char killText[8];
+    char countStr[6];
+
+    intToStr(PlayerReference->_KillCount, countStr, 1);
+
+    strcpy(killText, countStr);
+    strcat(killText, "x");
+
+    VDP_clearTextArea(TEXT_COL, TEXT_ROW, 6, 1);
+    VDP_setTextPalette(PAL_HUD);
+    PAL_setColor(PAL_HUD*16+15, RGB24_TO_VDPCOLOR(0x8000FF));
+    VDP_drawText(killText, TEXT_COL, TEXT_ROW);
+
+    if (PlayerReference->_KillCount >= KILLS_TO_WIN)
+    {
+        GameOver = TRUE;
+    }
 }
 
 void UpdatePlayer(Character* PlayerReference, Character* ListOfEnemies[], const s16 EnemyCount)
@@ -48,6 +73,7 @@ void UpdatePlayer(Character* PlayerReference, Character* ListOfEnemies[], const 
     if (!PlayerReference) { return; };
 
     UpdatePlayerInputs(PlayerReference);
+    UpdateHUDInfo(PlayerReference);
     UpdateCharacterPosition(PlayerReference);
     
     UpdatePlayerBullets(PlayerReference, ListOfEnemies, EnemyCount);
@@ -60,7 +86,7 @@ void UpdatePlayerBullets(Character* PlayerReference, Character* ListOfEnemies[],
 
     for (s16 bulletIndex = 0; bulletIndex < MAX_BULLETS; bulletIndex++)
     {
-        UpdateBullet(Bullets[bulletIndex], ListOfEnemies, EnemyCount);
+        UpdateBullet(PlayerReference, Bullets[bulletIndex], ListOfEnemies, EnemyCount);
     }
 
     UpdatePlayerShooting(PlayerReference);

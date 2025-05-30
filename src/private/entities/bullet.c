@@ -42,15 +42,15 @@ void ActivateBullet(Bullet* BulletReference, const Position PositionValue, const
     SPR_setVisibility(BulletReference->_Node._Sprite, VISIBLE);
 }
 
-void UpdateBullet(Bullet* BulletReference, Character* ListOfEnemies[], const s16 EnemyCount)
+void UpdateBullet(Character* PlayerReference, Bullet* BulletReference, Character* ListOfEnemies[], const s16 EnemyCount)
 {
     if (!BulletReference || !BulletReference->_IsActive) { return; }
     
     UpdateBulletPosition(BulletReference);
-    BulletCheckHitEnemies(BulletReference, ListOfEnemies, EnemyCount);
+    BulletCheckHitEnemies(PlayerReference, BulletReference, ListOfEnemies, EnemyCount);
 }
 
-void BulletCheckHitEnemies(Bullet* BulletReference, Character* ListOfEnemies[], const s16 EnemyCount)
+void BulletCheckHitEnemies(Character* PlayerReference, Bullet* BulletReference, Character* ListOfEnemies[], const s16 EnemyCount)
 {
     if (!BulletReference || !BulletReference->_IsActive) { return; }
 
@@ -73,6 +73,8 @@ void BulletCheckHitEnemies(Bullet* BulletReference, Character* ListOfEnemies[], 
         {
             DeactivateBullet(BulletReference);
             ApplyCharacterDamage(enemyReference, BulletReference->_Attribute._Damage);
+            
+            PlayerReference->_KillCount++;
             return;
         }
     }

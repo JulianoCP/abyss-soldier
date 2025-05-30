@@ -16,6 +16,7 @@ typedef struct
     Direction _Direction;
     bool _IsActive;
     s16 _RespawnTimer;
+    u16 _KillCount;
     
 } Character;
 

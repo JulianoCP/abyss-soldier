@@ -1,5 +1,5 @@
-out/src/private/entities/enemy.o: src/private/entities/enemy.c \
- src/public/entities/enemy.h C:/sgdk/inc/genesis.h C:/sgdk/inc/types.h \
+out/src/private/utils/game.o: src/private/utils/game.c \
+ src/public/utils/game.h C:/sgdk/inc/genesis.h C:/sgdk/inc/types.h \
  C:/sgdk/inc/config.h C:/sgdk/inc/asm.h C:/sgdk/inc/sys.h \
  C:/sgdk/inc/sram.h C:/sgdk/inc/mapper.h C:/sgdk/inc/memory.h \
  C:/sgdk/inc/memory_base.h C:/sgdk/inc/tools.h C:/sgdk/inc/bmp.h \
@@ -19,5 +19,4 @@ out/src/private/entities/enemy.o: src/private/entities/enemy.c \
  C:/sgdk/inc/types.h C:/sgdk/inc/ext/flash-save/saveman.h \
  C:/sgdk/inc/ext/console.h C:/sgdk/inc/config.h C:/sgdk/inc/string.h \
  C:/sgdk/inc/maths.h C:/sgdk/inc/dma.h C:/sgdk/inc/sprite_eng.h \
- C:/sgdk/inc/tools.h src/public/base/character.h src/public/base/node.h \
- src/public/utils/game.h res/resource.h src/public/utils/library.h
+ C:/sgdk/inc/tools.h res/resource.h

@@ -4,7 +4,7 @@ s16 EnemyInit(s16 VRAMIndex, Character* EnemyReference)
 {
     if (!EnemyReference) { return VRAMIndex; };
 
-    VRAMIndex += CharacterInit(EnemyReference, &EnemySprite, GetSafeRandomScreenPosition(), MakeAttribute(FIX16(INIT_ENEMY_SPEED), FIX16(INIT_ENEMY_HEALTH), FIX16(5)), PAL_ENEMY, VRAMIndex);
+    VRAMIndex += CharacterInit(EnemyReference, &EnemySprite, GetSafeRandomScreenPosition(), MakeAttribute(FIX16(INIT_ENEMY_SPEED), FIX16(INIT_ENEMY_HEALTH), FIX16(5)), PAL_ENTITIES, VRAMIndex);
     ActivateCharacter(EnemyReference);
 
     return VRAMIndex;

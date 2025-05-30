@@ -10,18 +10,14 @@
 
 #define BG_MAP BG_B
 
-#define PAL_MAP PAL2
-#define PAL_PLAYER PAL0
-#define PAL_ENEMY PAL1
-#define PAL_BULLET PAL3
+#define PAL_MAP PAL1
+#define PAL_ENTITIES PAL2
+#define PAL_HUD PAL3
 
 #define SCREEN_W 320
 #define SCREEN_H 224
 
 #define DIAGONAL_FIX FIX16(0.7071)
-
-#define SCREEN_TILES_W SCREEN_W/8
-#define SCREEN_TILES_H SCREEN_H/8
 
 #define WALL_SIZE 64
 #define WALL_BLOCK_SIZE 12
