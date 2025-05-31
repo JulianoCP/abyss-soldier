@@ -5,33 +5,32 @@ s16 VRAMTileIndex = TILE_USER_INDEX;
 
 int main(bool HardReset)
 {
-    SYS_disableInts();
-
     if (!HardReset) 
     {
         SYS_hardReset(); 
     }
-    
-    GameInit();
 
-    while (!GameOver)
+    if (!GameStarted)
     {
-        UpdateWave(&Player);
-        UpdateController(Enemies, EnemyCount);
-        
-        SPR_update();
-        SYS_doVBlankProcess();
+        GameStartScreen();
     }
 
-    ShowVictoryScreen();
+    if (!GameOver)
+    {
+        GameLoopScreen();
+    }
+
+    GameOverScreen();
     return 0;
 }
 
 void GameInit()
 {
+    SYS_disableInts();
+    SYS_showFrameLoad(true);
+
     SPR_init();
     SYS_enableInts();
-    SYS_showFrameLoad(true);
     
     VDP_setScreenHeight224();
     VDP_setScreenWidth320();
@@ -43,35 +42,58 @@ void GameInit()
     VRAMTileIndex += WaveManagerInit(VRAMTileIndex);
 }
 
-void ShowVictoryScreen()
+void GameStartScreen()
 {
-    ShowVictoryBar();
+    VDP_drawImageEx(BG_MAP, &GameStartImage, TILE_ATTR_FULL(PAL_MAP, FALSE, FALSE, FALSE, 0), 0, 0, TRUE, FALSE);
+    VDP_setScrollingMode(HSCROLL_LINE , VSCROLL_PLANE);
 
-    VDP_drawText("VOCE VENCEU!", 13, 13);
-    VDP_drawText("PRESSIONE START", 12, 14);
-
-    VDP_setTextPalette(PAL_HUD);
-    PAL_setColor(PAL_HUD*16+15, RGB24_TO_VDPCOLOR(0x8000FF));
-
-    while (TRUE)
+    while (!GameStarted)
     {
-        SYS_doVBlankProcess();
-
         if (JOY_readJoypad(JOY_1) & BUTTON_START)
         {
             break;
         }
+
+        SYS_doVBlankProcess();
     }
 
-    SYS_hardReset();
+    GameStarted = TRUE;
 }
 
-void ShowVictoryBar()
+void GameLoopScreen()
+{
+    ClearGameScreen();
+    GameInit();
+
+    while (!GameOver)
+    {
+        UpdateWave(&Player);
+        UpdateController(Enemies, EnemyCount);
+        
+        SPR_update();
+        SYS_doVBlankProcess();
+    }
+}
+
+void GameOverScreen()
 {
     ClearGameScreen();
     
-    VDP_drawImageEx(BG_MAP, &VictorySprite, TILE_ATTR_FULL(PAL_MAP, FALSE, FALSE, FALSE, 0), 0, 0, TRUE, FALSE);
+    VDP_drawImageEx(BG_MAP, &GameOverImage, TILE_ATTR_FULL(PAL_MAP, FALSE, FALSE, FALSE, 0), 0, 0, TRUE, FALSE);
     VDP_setScrollingMode(HSCROLL_LINE , VSCROLL_PLANE);
+
+    while (GameOver)
+    {
+        if (JOY_readJoypad(JOY_1) & BUTTON_START)
+        {
+            break;
+        }
+
+        SYS_doVBlankProcess();
+    }
+
+    GameOver = FALSE;
+    SYS_hardReset();
 }
 
 void ClearGameScreen()

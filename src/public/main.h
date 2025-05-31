@@ -17,8 +17,9 @@ extern s16 VRAMTileIndex;
 int main(bool HardReset);
 void GameInit();
 
-void ShowVictoryScreen();
-void ShowVictoryBar();
+void GameStartScreen();
+void GameLoopScreen();
+void GameOverScreen();
 void ClearGameScreen();
 
 #endif

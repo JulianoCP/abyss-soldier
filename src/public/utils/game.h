@@ -8,8 +8,9 @@
 #ifndef _GAME_H_
 #define _GAME_H_
 
-#define KILLS_TO_WIN 100
+#define KILLS_TO_WIN 10
 
 extern bool GameOver;
+extern bool GameStarted;
 
 #endif

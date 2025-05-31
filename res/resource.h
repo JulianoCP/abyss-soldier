@@ -3,8 +3,9 @@
 #ifndef _RES_RESOURCE_H_
 #define _RES_RESOURCE_H_
 
-extern const Image MapBackground;
-extern const Image VictorySprite;
+extern const Image GameLoopImage;
+extern const Image GameOverImage;
+extern const Image GameStartImage;
 extern const SpriteDefinition EnemySprite;
 extern const SpriteDefinition SoldierSprite;
 extern const SpriteDefinition BulletSprite;
