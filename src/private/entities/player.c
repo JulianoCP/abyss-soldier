@@ -6,9 +6,6 @@ Bullet* Bullets[MAX_BULLETS];
 s16 ShootingCooldown = 0;
 s16 ChooseTargetCooldown = 0;
 
-s16 OldButtons[NUMBER_OF_JOYPADS];
-s16 CurrentButtons[NUMBER_OF_JOYPADS];
-
 const fix16 DIRECTION_X_TABLE[8] = { FIX16(1.0),  FIX16(0.707), FIX16(0.0),   FIX16(-0.707), FIX16(-1.0), FIX16(-0.707), FIX16(0.0),  FIX16(0.707) };
 const fix16 DIRECTION_Y_TABLE[8] = { FIX16(0.0),  FIX16(-0.707), FIX16(-1.0), FIX16(-0.707), FIX16(0.0),  FIX16(0.707),  FIX16(1.0),  FIX16(0.707) };
 
@@ -204,24 +201,4 @@ s16 GetDirectionIndex(const s16 X, const s16 Y)
     }
 
     return 0;
-}
-
-bool IsBitset(const s16 Value, const s16 Bit) 
-{
-    return ((Value & Bit) == Bit);
-}
-
-bool IsKeyDown(const s16 JoyId, const s16 Key) 
-{
-    return IsBitset(CurrentButtons[JoyId], Key);
-}
-
-bool IsKeyPressed(const s16 JoyId, const s16 Key) 
-{
-    return IsBitset(CurrentButtons[JoyId], Key) && !IsBitset(OldButtons[JoyId], Key);
-}
-
-bool IsKeyReleased(const s16 JoyId, const s16 Key) 
-{
-    return !IsBitset(CurrentButtons[JoyId], Key) && IsBitset(OldButtons[JoyId], Key);
 }

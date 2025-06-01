@@ -22,5 +22,6 @@ out/src/private/main.o: src/private/main.c src/public/main.h \
  C:/sgdk/inc/tools.h src/public/level/map.h src/public/utils/library.h \
  res/resource.h src/public/managers/wave.h src/public/entities/enemy.h \
  src/public/base/character.h src/public/base/node.h \
- src/public/utils/game.h src/public/managers/controller.h \
- src/public/entities/player.h src/public/entities/bullet.h
+ src/public/utils/utils.h src/public/utils/game.h \
+ src/public/managers/controller.h src/public/entities/player.h \
+ src/public/entities/bullet.h

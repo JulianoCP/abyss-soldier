@@ -20,4 +20,5 @@ out/src/private/entities/bullet.o: src/private/entities/bullet.c \
  C:/sgdk/inc/ext/console.h C:/sgdk/inc/config.h C:/sgdk/inc/string.h \
  C:/sgdk/inc/maths.h C:/sgdk/inc/dma.h C:/sgdk/inc/sprite_eng.h \
  C:/sgdk/inc/tools.h src/public/base/character.h src/public/base/node.h \
- src/public/utils/game.h res/resource.h src/public/utils/library.h
+ src/public/utils/utils.h res/resource.h src/public/utils/game.h \
+ src/public/utils/library.h

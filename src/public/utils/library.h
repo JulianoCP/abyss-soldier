@@ -22,7 +22,6 @@
 #define WALL_SIZE 64
 #define WALL_BLOCK_SIZE 12
 #define CHARACTER_DIMENSION 32
-#define NUMBER_OF_JOYPADS 2
 
 #define ABS(X) ((X) < 0 ? -(X) : (X))
 

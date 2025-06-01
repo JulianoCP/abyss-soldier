@@ -19,5 +19,5 @@ out/src/private/base/node.o: src/private/base/node.c \
  C:/sgdk/inc/types.h C:/sgdk/inc/ext/flash-save/saveman.h \
  C:/sgdk/inc/ext/console.h C:/sgdk/inc/config.h C:/sgdk/inc/string.h \
  C:/sgdk/inc/maths.h C:/sgdk/inc/dma.h C:/sgdk/inc/sprite_eng.h \
- C:/sgdk/inc/tools.h src/public/utils/game.h res/resource.h \
- src/public/utils/library.h
+ C:/sgdk/inc/tools.h src/public/utils/utils.h res/resource.h \
+ src/public/utils/game.h src/public/utils/library.h

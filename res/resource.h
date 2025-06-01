@@ -4,8 +4,8 @@
 #define _RES_RESOURCE_H_
 
 extern const Image GameLoopImage;
-extern const Image GameOverImage;
 extern const Image GameStartImage;
+extern const Image GameOverImage;
 extern const SpriteDefinition EnemySprite;
 extern const SpriteDefinition SoldierSprite;
 extern const SpriteDefinition BulletSprite;

@@ -1,5 +1,5 @@
-out/src/private/entities/player.o: src/private/entities/player.c \
- src/public/entities/player.h C:/sgdk/inc/genesis.h C:/sgdk/inc/types.h \
+out/src/private/utils/utils.o: src/private/utils/utils.c \
+ src/public/utils/utils.h C:/sgdk/inc/genesis.h C:/sgdk/inc/types.h \
  C:/sgdk/inc/config.h C:/sgdk/inc/asm.h C:/sgdk/inc/sys.h \
  C:/sgdk/inc/sram.h C:/sgdk/inc/mapper.h C:/sgdk/inc/memory.h \
  C:/sgdk/inc/memory_base.h C:/sgdk/inc/tools.h C:/sgdk/inc/bmp.h \
@@ -19,6 +19,4 @@ out/src/private/entities/player.o: src/private/entities/player.c \
  C:/sgdk/inc/types.h C:/sgdk/inc/ext/flash-save/saveman.h \
  C:/sgdk/inc/ext/console.h C:/sgdk/inc/config.h C:/sgdk/inc/string.h \
  C:/sgdk/inc/maths.h C:/sgdk/inc/dma.h C:/sgdk/inc/sprite_eng.h \
- C:/sgdk/inc/tools.h src/public/base/character.h src/public/base/node.h \
- src/public/utils/utils.h res/resource.h src/public/utils/game.h \
- src/public/utils/library.h src/public/entities/bullet.h
+ C:/sgdk/inc/tools.h res/resource.h

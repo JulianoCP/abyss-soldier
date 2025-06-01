@@ -44,6 +44,8 @@ void GameInit()
 
 void GameStartScreen()
 {
+    ClearGameScreen();
+    
     VDP_drawImageEx(BG_MAP, &GameStartImage, TILE_ATTR_FULL(PAL_MAP, FALSE, FALSE, FALSE, 0), 0, 0, TRUE, FALSE);
     VDP_setScrollingMode(HSCROLL_LINE , VSCROLL_PLANE);
 
@@ -93,6 +95,8 @@ void GameOverScreen()
     }
 
     GameOver = FALSE;
+    GameStarted = FALSE;
+
     SYS_hardReset();
 }
 
