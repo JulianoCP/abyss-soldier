@@ -14,17 +14,28 @@ void RespawnEnemy(Character* EnemyReference)
 {
     if (!EnemyReference) { return; };
 
-    Position randomPosition = GetSafeRandomScreenPosition();
-    
-    EnemyReference->_Node._Position._Y = randomPosition._Y;
-    EnemyReference->_Node._Position._X = randomPosition._X;
-    
     EnemyReference->_Attribute._Speed = FIX16(INIT_ENEMY_SPEED);
     EnemyReference->_Attribute._Health = FIX16(INIT_ENEMY_HEALTH);
     EnemyReference->_Attribute._Damage = FIX16(INIT_ENEMY_DAMAGE);
     
+    SPR_setFrame(EnemyReference->_Node._Sprite, 0);
+
     ActivateCharacter(EnemyReference);
     UpdateCharacterPosition(EnemyReference);
+}
+
+void PredictRespawnLocation(Character* EnemyReference)
+{
+    if (!EnemyReference) { return; };
+
+    Position randomPosition = GetSafeRandomScreenPosition();
+    
+    EnemyReference->_Node._Position._Y = randomPosition._Y;
+    EnemyReference->_Node._Position._X = randomPosition._X;
+
+    SPR_setFrame(EnemyReference->_Node._Sprite, 1);
+    SPR_setPosition(EnemyReference->_Node._Sprite, F16_toInt(EnemyReference->_Node._Position._X), F16_toInt(EnemyReference->_Node._Position._Y));
+    SPR_setVisibility(EnemyReference->_Node._Sprite, VISIBLE);
 }
 
 void UpdateEnemy(Character* EnemyReference, Character* PlayerReference)
@@ -65,8 +76,10 @@ void UpdateEnemyState(Character* EnemyReference)
     {
         if (EnemyReference->_Attribute._Health <= 0)
         {
-            DeactivateCharacter(EnemyReference);
             EnemyReference->_RespawnTimer = RESPAWN_TIME;
+
+            DeactivateCharacter(EnemyReference);
+            PredictRespawnLocation(EnemyReference);
         }
     }
     else
