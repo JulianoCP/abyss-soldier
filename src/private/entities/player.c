@@ -39,7 +39,7 @@ s16 AddPlayerBullet(s16 VRAMIndex, Character* PlayerReference)
     }
 
     Bullets[BulletCount] = newBullet;
-    return BulletInit(newBullet, &BulletSprite, PlayerReference->_Node._Position, MakeAttribute(FIX16(BULLET_SPEED), FIX16(BULLET_HEALTH), FIX16(INIT_PLAYER_DAMAGE)), PAL_ENTITIES, VRAMIndex);
+    return BulletInit(newBullet, &BulletSprite, PlayerReference->_Node._Position, MakeAttribute(FIX16(BULLET_SPEED), FIX16(0), FIX16(INIT_PLAYER_DAMAGE)), PAL_ENTITIES, VRAMIndex);
 }
 
 void UpdateHUDInfo(Character* PlayerReference)
@@ -54,13 +54,26 @@ void UpdateHUDInfo(Character* PlayerReference)
     strcpy(killText, countStr);
     strcat(killText, "x");
 
-    VDP_clearTextArea(TEXT_COL, TEXT_ROW, 6, 1);
+    VDP_clearTextArea(34, 3, 6, 1);
     VDP_setTextPalette(PAL_HUD);
     PAL_setColor(PAL_HUD*16+15, RGB24_TO_VDPCOLOR(0x8000FF));
-    VDP_drawText(killText, TEXT_COL, TEXT_ROW);
+    VDP_drawText(killText, 34, 3);
 
+    char hpText[8];
+    char hpStr[6];
+
+    intToStr(F16_toInt(PlayerReference->_Attribute._Health), hpStr, 1);
+    strcpy(hpText, "HP ");
+    strcat(hpText, hpStr);
+
+    VDP_clearTextArea(3, 3, 6, 1);
+    VDP_drawText(hpText, 3, 3);
+
+    TotalKills = PlayerReference->_KillCount;
+    
     if (PlayerReference->_KillCount >= KILLS_TO_WIN)
     {
+        Victory = TRUE;
         GameOver = TRUE;
     }
 }
@@ -75,6 +88,24 @@ void UpdatePlayer(Character* PlayerReference, Character* ListOfEnemies[], const 
     
     UpdatePlayerBullets(PlayerReference, ListOfEnemies, EnemyCount);
     UpdatePlayerTarget(PlayerReference, ListOfEnemies, EnemyCount);
+
+    UpdatePlayerState(PlayerReference);
+}
+
+void UpdatePlayerState(Character* PlayerReference)
+{
+    if (!PlayerReference) { return; };
+
+    if (PlayerReference->_IsActive)
+    {
+        if (PlayerReference->_Attribute._Health <= 0)
+        {
+            DeactivateCharacter(PlayerReference);
+
+            Victory = FALSE;
+            GameOver = TRUE;
+        }
+    }
 }
 
 void UpdatePlayerBullets(Character* PlayerReference, Character* ListOfEnemies[], const s16 EnemyCount)

@@ -9,11 +9,8 @@
 #ifndef _PLAYER_H_
 #define _PLAYER_H_
 
-#define TEXT_COL 34
-#define TEXT_ROW 3
-
 #define INIT_PLAYER_SPEED 5
-#define INIT_PLAYER_HEALTH 200
+#define INIT_PLAYER_HEALTH 100
 #define INIT_PLAYER_DAMAGE 20
 
 #define NUM_DIRECTIONS 8
@@ -24,7 +21,6 @@
 
 #define MAX_BULLETS 8
 #define BULLET_SPEED 0.5
-#define BULLET_HEALTH 0
 
 extern s16 BulletCount;
 extern Bullet* Bullets[MAX_BULLETS];
@@ -40,6 +36,7 @@ fix16 GetDistanceSquared(Character* PlayerReference, const Position TargetPositi
 Character* FindNearbyTarget(Character* PlayerReference, Character* ListOfEnemies[], const s16 EnemyCount);
 
 void UpdateHUDInfo(Character* PlayerReference);
+void UpdatePlayerState(Character* PlayerReference);
 
 void UpdatePlayerInputs(Character* PlayerReference);
 void UpdatePlayerShooting(Character* PlayerReference);

@@ -8,6 +8,7 @@ s16 CharacterInit(Character* CharacterReference, const SpriteDefinition* SpriteV
 
     CharacterReference->_Attribute._Speed = AttributeValue._Speed;
     CharacterReference->_Attribute._Health = AttributeValue._Health;
+    CharacterReference->_Attribute._Damage = AttributeValue._Damage;
 
     return NodeInit(&CharacterReference->_Node, SpriteValue, PositionValue, PaletteValue, VRAMIndex);
 }
@@ -24,8 +25,8 @@ void ClearCharacterInputs(Character* CharacterReference)
 void ApplyCharacterDamage(Character* CharacterReference, const fix16 DamageValue)
 {
     if (!CharacterReference) { return; };
-
-    CharacterReference->_Attribute._Health -= DamageValue;
+    
+    CharacterReference->_Attribute._Health = (CharacterReference->_Attribute._Health - DamageValue);
 }
 
 fix16 GetCharacterSpeed(Character* CharacterReference)

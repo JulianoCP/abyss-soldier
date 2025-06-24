@@ -12,14 +12,20 @@
 #ifndef _MAIN_H_
 #define _MAIN_H_
 
+#define KEY_DELAY_TIME 240
+
+extern bool bIsCredit;
 extern s16 VRAMTileIndex;
+extern s8 SelectedContext;
+extern Sprite* ButtonReference;
 
 int main(bool HardReset);
-void GameInit();
+void MainInit();
 
 void GameStartScreen();
 void GameLoopScreen();
 void GameOverScreen();
+void CreditScreen();
 void ClearGameScreen();
 
 #endif

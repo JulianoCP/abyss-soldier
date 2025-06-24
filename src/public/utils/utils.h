@@ -8,7 +8,7 @@
 #ifndef _UTILS_H_
 #define _UTILS_H_
 
-#define NUMBER_OF_JOYPADS 2
+#define NUMBER_OF_JOYPADS 10
 
 extern s16 OldButtons[NUMBER_OF_JOYPADS];
 extern s16 CurrentButtons[NUMBER_OF_JOYPADS];
