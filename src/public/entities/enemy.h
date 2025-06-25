@@ -14,6 +14,16 @@
 
 #define RESPAWN_TIME 640
 #define ENEMY_HIT_RADIUS 6
+#define NUM_ENEMY_PRESETS 3
+
+typedef struct 
+{
+    s16 Damage;
+    s16 Speed;
+    s16 Health;
+    s16 Frame;
+
+} EnemyPreset;
 
 s16 EnemyInit(s16 VRAMIndex, Character* EnemyReference);
 

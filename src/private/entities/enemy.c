@@ -1,5 +1,11 @@
 #include "public/entities/enemy.h"
 
+const EnemyPreset EnemyPresets[NUM_ENEMY_PRESETS] = {
+    { .Damage = 5, .Speed = 3, .Health = 20, .Frame = 0 },
+    { .Damage = 10, .Speed = 5, .Health = 15, .Frame = 1 },
+    { .Damage = 5, .Speed = 2, .Health = 60, .Frame = 2 }
+};
+
 s16 EnemyInit(s16 VRAMIndex, Character* EnemyReference)
 {
     if (!EnemyReference) { return VRAMIndex; };
@@ -14,11 +20,13 @@ void RespawnEnemy(Character* EnemyReference)
 {
     if (!EnemyReference) { return; };
 
-    EnemyReference->_Attribute._Speed = FIX16(INIT_ENEMY_SPEED);
-    EnemyReference->_Attribute._Health = FIX16(INIT_ENEMY_HEALTH);
-    EnemyReference->_Attribute._Damage = FIX16(INIT_ENEMY_DAMAGE);
+    EnemyPreset presetData = EnemyPresets[(random() % NUM_ENEMY_PRESETS)];
+
+    EnemyReference->_Attribute._Speed = FIX16(presetData.Speed);
+    EnemyReference->_Attribute._Health = FIX16(presetData.Health);
+    EnemyReference->_Attribute._Damage = FIX16(presetData.Damage);
     
-    SPR_setFrame(EnemyReference->_Node._Sprite, 0);
+    SPR_setFrame(EnemyReference->_Node._Sprite, presetData.Frame);
 
     ActivateCharacter(EnemyReference);
     UpdateCharacterPosition(EnemyReference);
@@ -33,7 +41,7 @@ void PredictRespawnLocation(Character* EnemyReference)
     EnemyReference->_Node._Position._Y = randomPosition._Y;
     EnemyReference->_Node._Position._X = randomPosition._X;
 
-    SPR_setFrame(EnemyReference->_Node._Sprite, 1);
+    SPR_setFrame(EnemyReference->_Node._Sprite, 3);
     SPR_setPosition(EnemyReference->_Node._Sprite, F16_toInt(EnemyReference->_Node._Position._X), F16_toInt(EnemyReference->_Node._Position._Y));
     SPR_setVisibility(EnemyReference->_Node._Sprite, VISIBLE);
 }
