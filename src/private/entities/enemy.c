@@ -16,11 +16,23 @@ s16 EnemyInit(s16 VRAMIndex, Character* EnemyReference)
     return VRAMIndex;
 }
 
-void RespawnEnemy(Character* EnemyReference)
+EnemyPreset GetEnemyPresetByKills(s16 KillCount)
+{
+    u8 maxPresetIndex = 0;
+
+    if (KillCount < 30) { maxPresetIndex = 1; }
+    else if (KillCount < 60) { maxPresetIndex = 2; }
+    else { maxPresetIndex = 3; }
+   
+    s16 randomIndex = random() % maxPresetIndex;
+    return EnemyPresets[randomIndex];
+}
+
+void RespawnEnemy(Character* EnemyReference, Character* PlayerReference)
 {
     if (!EnemyReference) { return; };
 
-    EnemyPreset presetData = EnemyPresets[(random() % NUM_ENEMY_PRESETS)];
+    EnemyPreset presetData = GetEnemyPresetByKills(PlayerReference->_KillCount);
 
     EnemyReference->_Attribute._Speed = FIX16(presetData.Speed);
     EnemyReference->_Attribute._Health = FIX16(presetData.Health);
@@ -50,7 +62,7 @@ void UpdateEnemy(Character* EnemyReference, Character* PlayerReference)
 {
     if (!EnemyReference) { return; };
 
-    UpdateEnemyState(EnemyReference);
+    UpdateEnemyState(EnemyReference, PlayerReference);
     UpdateEnemyInputs(EnemyReference, PlayerReference);
 
     UpdateCharacterPosition(EnemyReference);
@@ -76,7 +88,7 @@ void EnemyCheckHitPlayer(Character* EnemyReference, Character* PlayerReference)
     }
 }
 
-void UpdateEnemyState(Character* EnemyReference)
+void UpdateEnemyState(Character* EnemyReference, Character* PlayerReference)
 {
     if (!EnemyReference) { return; };
 
@@ -98,7 +110,7 @@ void UpdateEnemyState(Character* EnemyReference)
            
             if (EnemyReference->_RespawnTimer <= 0)
             {
-                RespawnEnemy(EnemyReference);
+                RespawnEnemy(EnemyReference, PlayerReference);
             }
         }
     }

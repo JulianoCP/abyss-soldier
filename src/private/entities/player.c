@@ -46,6 +46,24 @@ void UpdateHUDInfo(Character* PlayerReference)
 {
     if (!PlayerReference) { return; };
 
+    char waveText[8];
+    u8 currentWave = PlayerReference->_KillCount / 30 + 1;
+
+    if (currentWave <= 2)
+    {
+        strcpy(waveText, "WAVE ");
+        waveText[5] = '0' + currentWave;
+        waveText[6] = '\0';
+
+        VDP_clearTextArea(17, 3, 6, 1);
+        VDP_drawText(waveText, 17, 3);
+    }
+    else
+    {
+        VDP_clearTextArea(15, 3, 12, 1);
+        VDP_drawText("WAVE FINAL", 15, 3);
+    }
+
     char killText[8];
     char countStr[6];
 

@@ -27,11 +27,12 @@ typedef struct
 
 s16 EnemyInit(s16 VRAMIndex, Character* EnemyReference);
 
-void UpdateEnemyState(Character* EnemyReference);
-void RespawnEnemy(Character* EnemyReference);
+void UpdateEnemyState(Character* EnemyReference, Character* PlayerReference);
 void PredictRespawnLocation(Character* EnemyReference);
+void RespawnEnemy(Character* EnemyReference, Character* PlayerReference);
 void EnemyCheckHitPlayer(Character* EnemyReference, Character* PlayerReference);
 
+EnemyPreset GetEnemyPresetByKills(s16 KillCount);
 void UpdateEnemy(Character* EnemyReference, Character* PlayerReference);
 void UpdateEnemyInputs(Character* EnemyReference, Character* PlayerReference);
 
